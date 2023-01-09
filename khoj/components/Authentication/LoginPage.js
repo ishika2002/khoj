@@ -21,7 +21,7 @@ export default function LoginPage({navigation}) {
       }
     return (
         <Layout >
-            <View width='100%'>
+            <View width='90%'>
                 <Header heading="LOGIN"/>
                 <View>
                     <InputBox>
@@ -30,7 +30,7 @@ export default function LoginPage({navigation}) {
                     <InputBox>
                         <TextInput placeholder="Password" secureTextEntry={true}/>
                     </InputBox>
-                    <AuthButton buttonName="Login" />
+                    <AuthButton buttonName="Login" navigateOption={navigation}/>
                 </View>
 
                 <GoogleAuth navigate="Signup" text="Don't have an account?" linkName="Sign Up!" navigateOption={navigation} otherOptionText="or Sign In with"/>

@@ -12,12 +12,10 @@ export default function Layout({children}) {
         //console.log(require('../../assets/fonts/Nunito-Black.ttf'))
         return null;
       }
-
-      console.log(Dimensions.get('screen').height-Dimensions.get('window').height-StatusBar.currentHeight)
-
+      
     return (
         <View style={styles.container}>
-          <SafeAreaView style={{alignItems: 'center', width: '90%', justifyContent: 'center'}}>
+          <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', width: '100%'}}>
 
           {children}
           </SafeAreaView>
@@ -31,6 +29,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       justifyContent: 'center',
       alignItems: 'center',
-      fontFamily: 'Nunito-Medium'
+      fontFamily: 'Nunito-Medium',
     },
   });

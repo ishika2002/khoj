@@ -2,7 +2,7 @@ import { Text, StyleSheet, TouchableOpacity } from "react-native"
 
 export default function AuthButton(props){
     return (
-        <TouchableOpacity style={styles.authbutton}>
+        <TouchableOpacity style={styles.authbutton} onPress={() => {props.navigateOption.navigate("Profile")}}>
             <Text style={styles.buttonContent}>{props.buttonName}</Text>
         </TouchableOpacity>
     )

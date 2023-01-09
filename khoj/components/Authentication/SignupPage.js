@@ -8,11 +8,14 @@ import GoogleAuth from "./GoogleAuth"
 export default function SignupPage({navigation}){
     return (
         <Layout>
-            <View width="100%">
+            <View width="90%">
                 <Header heading="SIGN UP"/>
                 <View>
                     <InputBox>
                         <TextInput placeholder="Username"/>
+                    </InputBox>
+                    <InputBox>
+                        <TextInput placeholder="Name"/>
                     </InputBox>
                     <InputBox>
                         <TextInput placeholder="Email ID"/>
@@ -20,10 +23,7 @@ export default function SignupPage({navigation}){
                     <InputBox>
                         <TextInput placeholder="Password" secureTextEntry={true}/>
                     </InputBox>
-                    <InputBox>
-                        <TextInput placeholder="Confirm Password" secureTextEntry={true}/>
-                    </InputBox>
-                    <AuthButton buttonName="Sign Up"/>
+                    <AuthButton buttonName="Sign Up" navigateOption={navigation}/>
                 </View>
 
                 <GoogleAuth navigate="Login" text="Already have an account?" linkName="Login!" navigateOption={navigation} otherOptionText="or Sign Up with"/>
