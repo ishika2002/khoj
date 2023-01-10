@@ -1,33 +1,36 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, StatusBar} from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Divider } from 'react-native-elements';
+import FontContainer from '../components/FontContainer';
 
-const MoreInfo = () => {
+const MoreInfo = ({navigation}) => {
   return (
+    <FontContainer>
     <SafeAreaView style={{backgroundColor:'#2B3A55', flex: 1}}>
         <ScrollView>
             <View style={styles.container}>
-                <Header />
+                <Header navigateOption={navigation}/>
                 <View style={styles.outer}>
                     <Image source={require('../assets/park.jpg')} style={{width: 350, height: 350}}/>
                     <Heading />
                     <Divider width={1} orientation='vertical' />
                     <Description />
                     <View style={{flexDirection:'row', marginTop:30}}>
-                        <Text style={{fontWeight:'500', fontSize:13, color:'white'}}>Location: </Text>
+                        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'white'}}>Location: </Text>
                         <Location />
                     </View>
                 </View>
             </View>
         </ScrollView>
     </SafeAreaView>
+    </FontContainer>
   )
 }
 
-const Header = () => (
+const Header = ({navigateOption}) => (
     <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigateOption.navigate("Explore")}>
             <Image source={require('../assets/back.png')} style={{width: 20, height: 20}}/>
         </TouchableOpacity>
         <Text style={styles.headerText}>MORE INFO</Text>
@@ -37,7 +40,7 @@ const Header = () => (
 
 const Heading =() => (
     <View style={{marginTop: 5}}>
-        <Text style={styles.heading}>Perfect picninc spot - Sunder Nursery</Text>
+        <Text style={styles.heading}>Perfect picnic spot - Sunder Nursery</Text>
     </View>
 )
 
@@ -65,9 +68,9 @@ const styles = StyleSheet.create({
     },
     headerText:{
        color:'white',
-       fontWeight:'700',
        fontSize:20,
        marginRight: 15,
+       fontFamily:'NunitoBlack',
     },
     outer:{
         margin:20,
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     heading:{
-        fontWeight: '600',
+        fontFamily:'Nunito-XBold',
         fontSize: 20,
         color:'white',
         marginTop:20,
@@ -85,12 +88,12 @@ const styles = StyleSheet.create({
         textAlign:'center',
     },
     description:{
-        fontWeight: '200',
+        fontFamily:'Nunito-Light',
         fontSize: 13,
         color:'white',
     },
     location:{
-        fontWeight: '200',
+        fontFamily:'Nunito-Light',
         fontSize: 13,
         color:'white',
     },

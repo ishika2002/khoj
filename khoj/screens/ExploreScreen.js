@@ -6,20 +6,23 @@ import Tags from '../components/explore/Tags';
 import Post from '../components/explore/Post';
 import { POSTS } from '../data/posts';
 import BottomTab from '../components/explore/BottomTab';
+import FontContainer from '../components/FontContainer';
 
-const ExploreScreen = () => {
+const ExploreScreen = ({navigation}) => {
   return (
+    <FontContainer>
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Header navigateOption={navigation}/>
       <Tags />
       <ScrollView>
         {POSTS.map((post, index) => (
           // console.log(post.user)
-          <Post post={post} key={index}/>
+          <Post post={post} key={index} navigateOption={navigation}/>
         ))}
       </ScrollView>
-      <BottomTab />
+      <BottomTab navigateOption={navigation}/>
     </SafeAreaView>
+    </FontContainer>
   )
 }
 

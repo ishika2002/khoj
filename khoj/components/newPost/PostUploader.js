@@ -4,13 +4,9 @@ import { Button, Divider } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import DropdownComponent from './DropdownComponent';
 
-const PostUploader = () => {
+const PostUploader = (props) => {
 
     const placeHolderImg = require('../../assets/placeHolder.png');
-
-    const handleSubmit = () => {
-        console.log('Hello');
-    }
 
     const [postImage, setPostImage] = useState(null);
 
@@ -29,7 +25,8 @@ const PostUploader = () => {
     };
 
   return (
-    <ScrollView>
+    <View>
+    <ScrollView style={{height:'89%'}}>
         <View style={styles.outer}>
                 <TouchableOpacity onPress={pickImage}>
                     <Image source={postImage ? {uri: postImage} : placeHolderImg} style={styles.photo}/>
@@ -37,11 +34,11 @@ const PostUploader = () => {
                 </TouchableOpacity>
                 <View style={styles.inner}>
                     <TextInput 
-                    style={{color: 'white', fontSize: 20, marginBottom:10}}
+                    style={{color: 'white', fontSize: 20, marginBottom:10, fontFamily:'Nunito-Medium'}}
                     placeholder='Write a heading' 
                     placeholderTextColor='gray'
                     multiline={true}
-                    maxLength={200}
+                    maxLength={100}
                     // onChangeText={handleChange('heading')}
                     // onBlur={handleBlur('heading')}
                     // value={values.heading}
@@ -50,21 +47,7 @@ const PostUploader = () => {
                     <Divider width={1} orientation='vertical' />
 
                     <TextInput 
-                    style={{color: 'white', marginTop:5}}
-                    placeholder='Add the description...' 
-                    placeholderTextColor='gray'
-                    multiline={true}
-                    maxLength={1100}
-                    // onChangeText={handleChange('description')}
-                    // onBlur={handleBlur('description')}
-                    // value={values.description}
-                    />
-                </View>
-            </View>
-            <View style={{ marginTop:20 }}>
-                <Divider width={1} orientation='vertical' />
-                <TextInput 
-                    style={styles.lowerFields}
+                    style={{color: 'white', marginTop:5, fontFamily:'Nunito-Medium'}}
                     placeholder='Add location' 
                     placeholderTextColor='gray'
                     multiline={true}
@@ -73,6 +56,12 @@ const PostUploader = () => {
                     // onBlur={handleBlur('location')}
                     // value={values.location}
                     />
+
+                </View>
+            </View>
+            <View style={{ marginTop:20 }}>
+                <Divider width={1} orientation='vertical' />
+                    <DropdownComponent />
     
                 <Divider width={1} orientation='vertical' />
                     {/* <TextInput 
@@ -83,15 +72,27 @@ const PostUploader = () => {
                     // onBlur={handleBlur('tag')}
                     // value={values.tag}
                     /> */}
-                    <DropdownComponent />
+                    <TextInput 
+                    style={styles.lowerFields}
+                    placeholder='Add the description...' 
+                    placeholderTextColor='gray'
+                    multiline={true}
+                    maxLength={1200}
+                    numberOfLines={35}
+                    textAlignVertical='top'
+                    // onChangeText={handleChange('description')}
+                    // onBlur={handleBlur('description')}
+                    // value={values.description}
+                    />
+                    
                 {/* <Divider width={1} orientation='vertical' /> */}
-
-                <View style={styles.button}>
-                    <Button onPress={handleSubmit} title='Share' />
-                    {/* <TouchableOpacity onPress={handleSubmit}  disabled={!isValid}><Text>Share</Text></TouchableOpacity> */}
-                </View>
             </View>
     </ScrollView>
+    <View style={styles.buttonOuter}>
+        {/* <Button onPress={() => props.navigateOption.navigate("Explore")} title='Share' /> */}
+        <TouchableOpacity onPress={() => props.navigateOption.navigate("Explore")} style={styles.button}><Text style={{fontFamily:'Nunito-Medium', color:'white'}}>Share</Text></TouchableOpacity>
+    </View>
+    </View>
   )
 }
 
@@ -121,10 +122,16 @@ const styles = StyleSheet.create({
         marginRight:10,
         marginTop:12,
         marginBottom:12,
+        fontFamily:'Nunito-Medium',
     },
     button:{
-        marginTop:340,
-        marginBottom:50,
+        backgroundColor:'#CE7777',
+        borderRadius:10,
+        padding:15,
+        alignItems:'center',
+    },
+    buttonOuter:{
+        justifyContent:'flex-end',
     },
   });
 

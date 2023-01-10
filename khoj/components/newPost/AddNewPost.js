@@ -3,19 +3,19 @@ import React from 'react';
 // import FormikPostUploader from './FormikPostUploader';
 import PostUploader from './PostUploader';
 
-const AddNewPost = () => {
+const AddNewPost = (props) => {
   return (
     <View style={styles.container}>
-        <Header />
+        <Header navigateOption={props.navigateOption}/>
         {/* <FormikPostUploader /> */}
-        <PostUploader />
+        <PostUploader navigateOption={props.navigateOption}/>
     </View>
   )
 }
 
-const Header = () => (
+const Header = (props) => (
     <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigateOption.navigate("Explore")}>
             <Image source={require('../../assets/back.png')} style={{width: 20, height: 20}}/>
         </TouchableOpacity>
         <Text style={styles.headerText}>NEW POST</Text>
@@ -35,9 +35,10 @@ const styles = StyleSheet.create({
   },
   headerText:{
      color:'white',
-     fontWeight:'700',
+    //  fontWeight:'700',
      fontSize:20,
      marginRight: 15,
+     fontFamily: 'NunitoBlack',
   },
 });
 

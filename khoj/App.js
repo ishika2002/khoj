@@ -34,6 +34,22 @@ export default function App() {
           name="Edit"
           component={EditPage}
         />
+        <Stack.Screen
+          name="Explore"
+          component={ExploreScreen}
+        />
+        <Stack.Screen
+          name="Add Post"
+          component={NewPostScreen}
+        />
+        <Stack.Screen
+          name="More Info"
+          component={MoreInfo}
+        />
+        <Stack.Screen
+          name="Commment Section"
+          component={CommentSection}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

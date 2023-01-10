@@ -15,9 +15,9 @@ const DropdownComponent = () => {
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        containerStyle={{backgroundColor:'#2B3A55'}}
-        itemContainerStyle={{margin:3, height:55}}
-        itemTextStyle={{color:'white', fontSize:14}}
+        containerStyle={{backgroundColor:'#2B3A55', fontFamily:'Nunito-Medium'}}
+        itemContainerStyle={{margin:3, height:55, fontFamily:'Nunito-Medium'}}
+        itemTextStyle={{color:'white', fontSize:14, fontFamily:'Nunito-Medium'}}
         activeColor='#475b80'
         data={TAGS}
         search
@@ -66,11 +66,13 @@ const styles = StyleSheet.create({
   placeholderStyle: {
     fontSize: 14,
     color:'gray',
+    fontFamily:'Nunito-Medium',
   },
   selectedTextStyle: {
     fontSize: 14,
     color:'white',
     marginLeft:5,
+    fontFamily:'Nunito-Medium',
   },
   iconStyle: {
     width: 20,
@@ -80,5 +82,6 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 14,
     color:'white',
+    fontFamily:'Nunito-Medium',
   },
 });

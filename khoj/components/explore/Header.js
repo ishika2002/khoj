@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 
-const Header = () => {
+const Header = (props) => {
   return (
     <View style={{ overflow: 'hidden', paddingBottom: 5 }}>
         <View style={styles.container}>
@@ -10,7 +10,7 @@ const Header = () => {
           </View>
           <View style={styles.header2}>
             <Image style={styles.logo} source={require('../../assets/logo.png')}/>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigateOption.navigate("Profile")}>
               <Image style={styles.profile} source={require('../../assets/profile.png')}/>
             </TouchableOpacity>
           </View>

@@ -3,12 +3,14 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Divider } from 'react-native-elements';
 import { POSTS } from '../data/posts';
+import FontContainer from '../components/FontContainer';
 
-const CommentSection = () => {
+const CommentSection = ({navigation}) => {
     return (
+        <FontContainer>
         <SafeAreaView style={{backgroundColor:'#F2E5E5', flex: 1}}>
             <View style={styles.container}>
-                <Header />
+                <Header navigateOption={navigation}/>
                 <ScrollView style={{margin:20}}>
                     <Comments />
                 </ScrollView>
@@ -16,7 +18,7 @@ const CommentSection = () => {
             <View style={{justifyContent:'flex-end', backgroundColor:'#2B3A55'}}>
                 <View style={{marginLeft:20, marginRight:20, marginBottom:15, marginTop:15, justifyContent:'space-between', alignItems:'center', flexDirection:'row'}}>
                     <TextInput 
-                        style={{color: 'white', width:'85%'}}
+                        style={{color: 'white', width:'85%', fontFamily:'Nunito-Medium'}}
                         placeholder='Write a comment...' 
                         placeholderTextColor='gray'
                         multiline={true}
@@ -25,16 +27,17 @@ const CommentSection = () => {
                         // onBlur={handleBlur('heading')}
                         // value={values.heading}
                     />
-                    <TouchableOpacity><Text style={{color:'#E8C4C4'}}>Post</Text></TouchableOpacity>
+                    <TouchableOpacity><Text style={{color:'#E8C4C4', fontFamily:'Nunito-Bold'}}>Post</Text></TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
+        </FontContainer>
       )
 }
 
-const Header = () => (
+const Header = ({navigateOption}) => (
     <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigateOption.navigate("Explore")}>
             <Image source={require('../assets/backBlue.png')} style={{width: 20, height: 20}}/>
         </TouchableOpacity>
         <Text style={styles.headerText}>COMMENTS</Text>
@@ -52,9 +55,9 @@ const Comments = () => (
                 </View>
                 <View style={{marginTop:5, marginLeft:10, }}>
                     <Text style={{color:'#2B3A55', marginBottom:10, marginTop:5, fontSize:15}}>
-                        <Text style={{fontWeight:'600'}}>{comment.user}</Text>
+                        <Text style={{fontFamily:'Nunito-XBold'}}>{comment.user}</Text>
                     </Text>
-                    <Text style={{color:'#2B3A55', marginBottom:15, fontSize:12}}>{comment.comment}</Text>
+                    <Text style={{color:'#2B3A55', marginBottom:15, fontSize:12, fontFamily:'Nunito-Medium'}}>{comment.comment}</Text>
                 </View>
             </View>
             <Divider width={1} orientation='vertical'/>
@@ -76,9 +79,10 @@ const styles = StyleSheet.create({
     },
     headerText:{
        color:'#2B3A55',
-       fontWeight:'700',
+    //    fontWeight:'700',
        fontSize:20,
        marginRight: 15,
+       fontFamily:'NunitoBlack'
     },
     outer:{
         margin:20,

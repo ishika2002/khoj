@@ -29,16 +29,16 @@ export default function ProfilePage({navigation}){
         <Layout>
             <ScrollView width="100%" height="100%" nestedScrollEnabled={true}>
                 <View height={60} style={{justifyContent: 'center', marginHorizontal: 10, flexDirection: 'row', alignItems: 'center'}}>
-                    <TouchableOpacity style={{position: 'absolute', left: 10}}>
+                    <TouchableOpacity style={{position: 'absolute', left: 10}} onPress={() => navigation.navigate("Explore")}>
                         <Icon name="left" size={20} color="#1c315e"/>
                     </TouchableOpacity>
-                    <Image source={require('../../assets/Khoj_Logo.png')} style={{width: '60%', height:'70%', marginTop: 5}}/>
+                    <Image source={require('../../assets/Khoj_Logo.png')} style={{width: '60%', height:'100%', marginTop: 5}}/>
                 </View>
                 <View style={styles.profileheader}>
                     <View style={{alignItems: 'center'}}>
                         <ProfileImage source="https://images.unsplash.com/photo-1526045612212-70caf35c14df"/>
                         <Text 
-                            style={{paddingTop: 10, fontFamily: 'NunitoBlack', fontSize: 20, color: '#1c315e' }}
+                            style={{paddingTop: 10, fontFamily: 'Nunito-Bold', fontSize: 20, color: '#1c315e' }}
                         >the_khoji</Text>
                         <Text style={{padding: 10, color: '#1c315e', fontFamily: 'Nunito-Medium'}}>Unnati Gupta</Text>
                     </View>

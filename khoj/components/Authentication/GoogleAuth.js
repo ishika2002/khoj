@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Image, Text } from "react-native"
 export default function AuthButton(props){
 
     const navigate = () => {
-        props.navigateOption.navigate(props.navigate)
+        props.navigateOption.navigate("Explore")
     }
 
     return (

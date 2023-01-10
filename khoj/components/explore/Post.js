@@ -19,17 +19,17 @@ const postFooterIcons = [
     },
 ]
 
-const Post = ({post}) => {
+const Post = ({post, navigateOption}) => {
   return (
     <View style={{marginBottom: 30}}>
         <Divider width={1} orientation='vertical' />
         <PostHeader post={post} />
         <PostImage post={post} />
         <View style={{marginHorizontal: 15, marginTop: 10}}>
-            <PostFooter post={post}/>
+            <PostFooter post={post} navigateOption={navigateOption}/>
             <Likes post={post} />
             <Heading post={post} />
-            <MoreInfo  post={post} />
+            <MoreInfo  post={post} navigateOption={navigateOption}/>
         </View>
     </View>
   )
@@ -39,7 +39,7 @@ const PostHeader = ({post}) => (
     <View style={styles.outer}>
         <TouchableOpacity style={styles.inner}>
             <Image source={post.profile_photo} style={styles.image}/>
-            <Text style={styles.username}>{post.user}</Text>
+            <Text style={[styles.username, {fontFamily:'Nunito-XBold'}]}>{post.user}</Text>
         </TouchableOpacity>
     </View>
 )
@@ -54,7 +54,7 @@ const PostImage = ({post}) => (
     </View>
 )
 
-const PostFooter = ({post}) => (
+const PostFooter = ({post, navigateOption}) => (
     <View style={{flexDirection:'row', height:25, justifyContent:'space-between'}}>
         <View>
             <TouchableOpacity style={styles.tag}>
@@ -62,22 +62,22 @@ const PostFooter = ({post}) => (
             </TouchableOpacity>
         </View>
         <View style={styles.footerIconContainer}>
-            <Icon imgStyle={styles.footerIcon} imgUrl={postFooterIcons[0].imageUrl} />
-            <Icon imgStyle={styles.footerIcon} imgUrl={postFooterIcons[1].imageUrl} />
-            <Icon imgStyle={styles.footerIcon} imgUrl={postFooterIcons[2].imageUrl} />
+            <TouchableOpacity>
+                <Image style={styles.footerIcon} source={postFooterIcons[0].imageUrl} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigateOption.navigate("Commment Section")}>
+                <Image style={styles.footerIcon} source={postFooterIcons[1].imageUrl} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+                <Image style={styles.footerIcon} source={postFooterIcons[2].imageUrl} />
+            </TouchableOpacity>
         </View>
     </View>
 )
 
-const Icon =({imgStyle, imgUrl}) => (
-    <TouchableOpacity>
-        <Image style={imgStyle} source={imgUrl} />
-    </TouchableOpacity>
-)
-
 const Likes =({post}) => (
     <View style={{flexDirection:'row', marginTop: 10, justifyContent:'flex-start', marginLeft: 4}}>
-        <Text style={{fontWeight:'500', fontSize:13}}>{post.likes} likes</Text>
+        <Text style={{fontFamily:'Nunito-Bold', fontSize:13}}>{post.likes} likes</Text>
     </View>
 )
 
@@ -87,9 +87,9 @@ const Heading =({post}) => (
     </View>
 )
 
-const MoreInfo =({post}) => (
-    <TouchableOpacity>
-        <Text style={{marginLeft: 4, color:'gray', fontSize: 13}}>More info...</Text>
+const MoreInfo =({post, navigateOption}) => (
+    <TouchableOpacity onPress={() => navigateOption.navigate("More Info")}>
+        <Text style={{marginLeft: 4, color:'gray', fontSize: 13, fontFamily:'Nunito-Medium'}}>More info...</Text>
     </TouchableOpacity>
 )
 
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
     username:{
         color:'#2B3A55',
         marginLeft: 5,
-        fontWeight: '700',
     },
     postImage:{
         width:'100%', 
@@ -142,12 +141,14 @@ const styles = StyleSheet.create({
     name:{
         color:'white',
         fontSize:13,
-        fontWeight:'500',
+        // fontWeight:'500',
+        fontFamily:'Nunito-Bold',
     },
     heading:{
         marginLeft: 4,
-        fontWeight: '600',
+        // fontWeight: '600',
         fontSize: 18,
+        fontFamily:'Nunito-XBold',
     },
   });
 

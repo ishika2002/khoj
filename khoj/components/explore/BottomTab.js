@@ -2,12 +2,12 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import React, {useState} from 'react';
 import { Divider } from 'react-native-elements';
 
-const BottomTab = () => {
+const BottomTab = (props) => {
   return (
     <View>
         <Divider width={1} orientation='vertical' />
         <View style={styles.container}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigateOption.navigate("Add Post")}>
                 <Image source={require('../../assets/add.png')} style={styles.icon}/>
             </TouchableOpacity>
         </View>

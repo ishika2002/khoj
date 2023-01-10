@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     },
     name:{
         color:'white',
+        fontFamily:'Nunito-Bold',
     },
   });
 
