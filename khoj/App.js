@@ -1,3 +1,8 @@
+import ExploreScreen from './screens/ExploreScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import NewPostScreen from './screens/NewPostScreen';
+import MoreInfo from './screens/MoreInfo';
+import CommentSection from './screens/CommentSection';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
