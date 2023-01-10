@@ -24,7 +24,7 @@ export default function ProfilePage({navigation}){
         "https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/sites/1/2017/12/05190911/HARPER-NINE-CHAMBERED-1.jpg?w=1200&h=628&fill=blur&fit=fill",
     ]
 
-    const [postVisible, setPostVisible] = useState(true);
+    const [visible, setVisible] = useState(0);
     return (
         <Layout>
             <ScrollView width="100%" height="100%" nestedScrollEnabled={true}>
@@ -58,19 +58,23 @@ export default function ProfilePage({navigation}){
                 </View>
                 <View style={[styles.tab, {marginHorizontal: 10}]}>
                     <View style={styles.tab}>
-                            <TouchableOpacity style={[styles.tabButton, !postVisible ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => postVisible & setPostVisible(true)}>
+                            <TouchableOpacity style={[styles.tabButton, (visible!=0) ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => visible!=0 & setVisible(0)}>
                                 <Text style={{fontFamily: 'Nunito-Medium'}}>Posts</Text>
                                 <View style={styles.divider}></View>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.tabButton, postVisible ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => postVisible & setPostVisible(false)}>
+                            <TouchableOpacity style={[styles.tabButton, (visible!=1) ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => visible!=1 & setVisible(1)}>
                                 <Text style={{fontFamily: 'Nunito-Medium'}}>Starred</Text>
+                                <View style={styles.divider}></View>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.tabButton, (visible!=2) ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => visible!=2 & setVisible(2)}>
+                                <Text style={{fontFamily: 'Nunito-Medium'}}>Memories</Text>
                                 <View style={styles.divider}></View>
                             </TouchableOpacity>
                     </View>
                 </View>
                 <ScrollView horizontal={true} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', marginHorizontal: 3}}>
         
-                    {postVisible ? <FlatList 
+                    {visible==0 ? <FlatList 
                         numColumns={3}
                         data={postsImages}
                         scrollEnabled={false}
@@ -82,7 +86,7 @@ export default function ProfilePage({navigation}){
                                 />
                             )
                         }}
-                    /> : <FlatList 
+                    /> : (visible==1 ? <FlatList 
                     numColumns={3}
                     data={starredImages}
                     scrollEnabled={false}
@@ -94,7 +98,22 @@ export default function ProfilePage({navigation}){
                             />
                         )
                     }}
-                />
+                    /> : <FlatList 
+                            numColumns={3}
+                            data={postsImages}
+                            scrollEnabled={false}
+                            renderItem={({item}) => {
+                                return (
+                                    <View>
+                                        <Image 
+                                            source={{uri: item}} 
+                                            style={styles.images}
+                                        />
+                                        <Text style={{textAlign: 'center', backgroundColor: '#1c315e', color: '#fff', marginHorizontal: 2, marginBottom: 2, padding: 5}}>January, 2023</Text>
+                                    </View>
+                                )
+                            }}
+                        />)
                     }
         
                 </ScrollView>
@@ -140,7 +159,7 @@ const styles = StyleSheet.create({
         color: '#E8C4C4',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '50%',
+        width: '35%',
     },
     divider: {
         borderBottomColor: '#000',
@@ -151,6 +170,7 @@ const styles = StyleSheet.create({
     images: {
         height: (Dimensions.get('window').width-20)/3,
         width: (Dimensions.get('window').width-20)/3,
-        margin: 2
+        margin: 2,
+        marginBottom: 0
     }
 })
