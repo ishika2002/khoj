@@ -7,8 +7,19 @@ import Post from '../components/explore/Post';
 import { POSTS } from '../data/posts';
 import BottomTab from '../components/explore/BottomTab';
 import FontContainer from '../components/FontContainer';
+import { auth } from "../firebase"
+import { onAuthStateChanged } from 'firebase/auth';
 
 const ExploreScreen = ({navigation}) => {
+
+  onAuthStateChanged(auth, (user) => {
+    if(user){
+      console.log(user.email," signed in")
+    }else{
+      console.log("signed out")
+    }
+  })
+
   return (
     <FontContainer>
     <SafeAreaView style={styles.container}>
