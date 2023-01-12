@@ -4,8 +4,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Divider } from 'react-native-elements';
 import { POSTS } from '../data/posts';
 import FontContainer from '../components/FontContainer';
+import { auth } from "../firebase"
+import { onAuthStateChanged } from 'firebase/auth';
 
 const CommentSection = ({navigation}) => {
+
+    onAuthStateChanged(auth, (user) => {
+        if(user){
+          console.log(user.email," signed in")
+        }else{
+          console.log("signed out")
+        }
+      })
+
     return (
         <FontContainer>
         <SafeAreaView style={{backgroundColor:'#F2E5E5', flex: 1}}>

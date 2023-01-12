@@ -5,8 +5,27 @@ import Header from "./Header"
 import AuthButton from "./AuthButton"
 import InputBox from "./InputBox"
 import GoogleAuth from "./GoogleAuth"
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+import { auth } from '../../firebase'
 
 export default function SignupPage({navigation}){
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+
+    const submit = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+            updateProfile(userCredentials.user, {
+                displayName: name
+            })
+        })
+        .catch((err) => {
+            console.log(err.message)
+        })
+    }
+
     return (
         <Layout>
             <View width="90%">

@@ -4,8 +4,22 @@ import Layout from "../Layout"
 import { useState } from "react"
 import Icon from 'react-native-vector-icons/AntDesign'
 import ProfileImage from "./ProfileImage"
+import { auth } from "../../firebase"
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function ProfilePage({navigation}){
+    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
+
+    onAuthStateChanged(auth, (user) => {
+        if(user){
+            setName(user.displayName);
+            setUsername(user.displayName)
+        }else{
+          console.log("signed out")
+        }
+      })
+
     const postsImages = [
         "https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg",
         "https://www.opodo.co.uk/blog/wp-content/uploads/sites/12/2016/04/regaleira-portugal.jpg",
@@ -39,8 +53,8 @@ export default function ProfilePage({navigation}){
                         <ProfileImage source="https://images.unsplash.com/photo-1526045612212-70caf35c14df"/>
                         <Text 
                             style={{paddingTop: 10, fontFamily: 'Nunito-Bold', fontSize: 20, color: '#1c315e' }}
-                        >the_khoji</Text>
-                        <Text style={{padding: 10, color: '#1c315e', fontFamily: 'Nunito-Medium'}}>Unnati Gupta</Text>
+                        >{username}</Text>
+                        <Text style={{padding: 10, color: '#1c315e', fontFamily: 'Nunito-Medium'}}>{name}</Text>
                     </View>
                     <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("Edit")}>
                         <Text style={{color: "#E8C4C4", fontFamily: 'Nunito-Medium'}}>Edit Profile</Text>

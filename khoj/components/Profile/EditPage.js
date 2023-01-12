@@ -3,10 +3,20 @@ import Layout from '../Layout';
 import ProfileImage from './ProfileImage';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+import { auth } from "../../firebase"
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function EditPage({navigation}) {
 
     const [image, setImage] = useState(null);
+
+    onAuthStateChanged(auth, (user) => {
+        if(user){
+          console.log(user.email," signed in")
+        }else{
+          console.log("signed out")
+        }
+      })
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
