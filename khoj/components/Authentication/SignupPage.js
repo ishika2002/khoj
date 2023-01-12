@@ -5,37 +5,26 @@ import Header from "./Header"
 import AuthButton from "./AuthButton"
 import InputBox from "./InputBox"
 import GoogleAuth from "./GoogleAuth"
-import {getAuth, createUserWithEmailAndPassword} from "firebase/auth"
 
 export default function SignupPage({navigation}){
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-
-    const submit = () => {
-        const auth = getAuth()
-        createUserWithEmailAndPassword(auth, email, password).then((result) => {console.log(result)})
-    }
-
     return (
         <Layout>
             <View width="90%">
                 <Header heading="SIGN UP"/>
                 <View>
                     <InputBox>
-                        <TextInput placeholder="Username" onChangeText={(username) => setUsername(username)}/>
+                        <TextInput placeholder="Username"/>
                     </InputBox>
                     <InputBox>
-                        <TextInput placeholder="Name" onChangeText={(name) => setName(name)}/>
+                        <TextInput placeholder="Name"/>
                     </InputBox>
                     <InputBox>
-                        <TextInput placeholder="Email ID" onChangeText={(email) => setEmail(email)}/>
+                        <TextInput placeholder="Email ID"/>
                     </InputBox>
                     <InputBox>
-                        <TextInput placeholder="Password" secureTextEntry={true} onChangeText={(password) => setPassword(password)}/>
+                        <TextInput placeholder="Password" secureTextEntry={true}/>
                     </InputBox>
-                    <AuthButton buttonName="Sign Up" navigateOption={navigation} onClick={submit}/>
+                    <AuthButton buttonName="Sign Up" navigateOption={navigation}/>
                 </View>
 
                 <GoogleAuth navigate="Login" text="Already have an account?" linkName="Login!" navigateOption={navigation} otherOptionText="or Sign Up with"/>
