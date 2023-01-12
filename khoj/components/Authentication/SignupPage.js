@@ -31,19 +31,19 @@ export default function SignupPage({navigation}){
             <View width="90%">
                 <Header heading="SIGN UP"/>
                 <View>
-                    <InputBox>
-                        <TextInput placeholder="Username"/>
+                <InputBox>
+                        <TextInput placeholder="Username" onChangeText={(username) => setUsername(username)}/>
                     </InputBox>
                     <InputBox>
-                        <TextInput placeholder="Name"/>
+                        <TextInput placeholder="Name" onChangeText={(name) => setName(name)}/>
                     </InputBox>
                     <InputBox>
-                        <TextInput placeholder="Email ID"/>
+                        <TextInput placeholder="Email ID" onChangeText={(email) => setEmail(email)}/>
                     </InputBox>
                     <InputBox>
-                        <TextInput placeholder="Password" secureTextEntry={true}/>
+                        <TextInput placeholder="Password" secureTextEntry={true} onChangeText={(password) => setPassword(password)}/>
                     </InputBox>
-                    <AuthButton buttonName="Sign Up" navigateOption={navigation}/>
+                    <AuthButton buttonName="Sign Up" navigateOption={navigation} onClick={submit}/>
                 </View>
 
                 <GoogleAuth navigate="Login" text="Already have an account?" linkName="Login!" navigateOption={navigation} otherOptionText="or Sign Up with"/>
