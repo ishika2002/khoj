@@ -10,7 +10,7 @@ const Tags = () => {
         showsHorizontalScrollIndicator={false}
         >
             {TAGS.map((tag, index)=>(
-                <TouchableOpacity style={styles.tag}>
+                <TouchableOpacity style={styles.tag} key={index}>
                     <Text style={styles.name}>{tag.tagName}</Text>
                 </TouchableOpacity>
             ))}

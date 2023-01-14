@@ -1,7 +1,7 @@
 import { NavigationContainer, TabActions } from "@react-navigation/native"
 import {Text, View, Image, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity} from "react-native"
 import Layout from "../Layout"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Icon from 'react-native-vector-icons/AntDesign'
 import ProfileImage from "./ProfileImage"
 import { auth, database } from "../../firebase"
@@ -16,24 +16,41 @@ export default function ProfilePage({navigation}){
     const [profileUrl, setProfileUrl] = useState('');
     const [postCount, setPostCount] = useState(0);
     const [streakCount, setStreakCount] = useState(0);
+    const [posts, setPosts] = useState([]);
+    const [uid, setUid] = useState('');
 
     onAuthStateChanged(auth, (user) => {
         if(user){
+
+            setUid(user.uid)
             const userDetails = ref(database, 'users/' + user.uid);
             onValue(userDetails, (snapshot) => {
             const data = snapshot.val();
-            // updateStarCount(postElement, data);
+
             setName(data.name);
             setUsername(data.username);
             setProfileUrl(data.profileUrl);
             setPostCount(data.postCount);
             setStreakCount(data.streakCount);
-            console.log(typeof(profileUrl))
             });
         }else{
           console.log("signed out")
         }
       })
+
+      useEffect(() => {
+        const userDetails = ref(database, 'users/' + uid);
+        onValue(userDetails, (snapshot) => {
+            const data = snapshot.val();
+            const allPosts = []
+            for(const item in data.posts){
+                var obj = data.posts[item];
+                obj["key"] = item;
+                allPosts.push(data.posts[item])
+                setPosts([...posts,allPosts])
+            }
+        })
+      }, [uid])
 
     const postsImages = [
         "https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg",
@@ -103,19 +120,21 @@ export default function ProfilePage({navigation}){
                 </View>
                 <ScrollView horizontal={true} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', marginHorizontal: 3}}>
         
-                    {visible==0 ? <FlatList 
+                    {visible==0 ? (posts!=="undefined" && posts!==null) ? <FlatList 
                         numColumns={3}
-                        data={postsImages}
+                        data={posts[0]}
                         scrollEnabled={false}
+                        extraData={posts}
                         renderItem={({item}) => {
+                            console.log(item.key)
                             return (
                                 <Image 
-                                    source={{uri: item}} 
+                                    source={{uri: item.imageUrl}} 
                                     style={styles.images}
                                 />
                             )
                         }}
-                    /> : (visible==1 ? <FlatList 
+                    /> : null : (visible==1 ? <FlatList 
                     numColumns={3}
                     data={starredImages}
                     scrollEnabled={false}

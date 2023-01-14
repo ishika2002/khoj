@@ -3,12 +3,35 @@ import React, { useState } from 'react';
 import { Button, Divider } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import DropdownComponent from './DropdownComponent';
+import { auth, database } from "../../firebase"
+import { onAuthStateChanged } from 'firebase/auth';
+import { getDatabase, ref, child, push, update, onValue } from "firebase/database";
 
 const PostUploader = (props) => {
 
     const placeHolderImg = require('../../assets/placeHolder.png');
 
     const [postImage, setPostImage] = useState(null);
+    const [uid, setUid] = useState('');
+    const [tag, setTag] = useState('');
+    const [heading, setHeading] = useState('');
+    const [description, setDescription] = useState('');
+    const [location, setLocation] = useState('');
+    let postCount;
+
+    const userDetails = ref(database, 'users/' + uid);
+        onValue(userDetails, (snapshot) => {
+            const data = snapshot.val();
+            postCount = data.postCount;
+        });
+
+    onAuthStateChanged(auth, (user) => {
+        if(user){
+          setUid(user.uid)
+        }else{
+          console.log("signed out")
+        }
+    })
 
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
@@ -23,6 +46,35 @@ const PostUploader = (props) => {
 
       setPostImage(result.assets[0].uri);
     };
+
+    const newPost = () => {
+        const newPostKey = push(child(ref(database), 'posts')).key;
+        update(ref(database, 'users/' + uid + '/posts/' + newPostKey), {
+          imageUrl: 'https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg',
+          tag: tag,
+          likes: 0,
+          heading: heading,
+          description: description,
+          location: location,
+          comments: [],
+      }).then(()=> {
+        update(ref(database, 'users/' + uid),{
+            postCount: postCount+1
+        })
+      }).then(() => {
+        update(ref(database, tag + '/' + newPostKey), {
+            imageUrl: 'https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg',
+            tag: tag,
+            likes: 0,
+            heading: heading,
+            description: description,
+            location: location,
+            comments: [],
+            author: uid
+        })
+      });
+        props.navigateOption.navigate("Profile");
+      }
 
   return (
     <View>
@@ -39,6 +91,7 @@ const PostUploader = (props) => {
                     placeholderTextColor='gray'
                     multiline={true}
                     maxLength={100}
+                    onChangeText={(heading) => setHeading(heading)}
                     // onChangeText={handleChange('heading')}
                     // onBlur={handleBlur('heading')}
                     // value={values.heading}
@@ -52,16 +105,14 @@ const PostUploader = (props) => {
                     placeholderTextColor='gray'
                     multiline={true}
                     maxLength={1100}
-                    // onChangeText={handleChange('location')}
-                    // onBlur={handleBlur('location')}
-                    // value={values.location}
+                    onChangeText={(location) => setLocation(location)}
                     />
 
                 </View>
             </View>
             <View style={{ marginTop:20 }}>
                 <Divider width={1} orientation='vertical' />
-                    <DropdownComponent />
+                    <DropdownComponent setTag={(tag) => setTag(tag)}/>
     
                 <Divider width={1} orientation='vertical' />
                     {/* <TextInput 
@@ -80,6 +131,7 @@ const PostUploader = (props) => {
                     maxLength={1200}
                     numberOfLines={35}
                     textAlignVertical='top'
+                    onChangeText={(description) => setDescription(description)}
                     // onChangeText={handleChange('description')}
                     // onBlur={handleBlur('description')}
                     // value={values.description}
@@ -90,7 +142,7 @@ const PostUploader = (props) => {
     </ScrollView>
     <View style={styles.buttonOuter}>
         {/* <Button onPress={() => props.navigateOption.navigate("Explore")} title='Share' /> */}
-        <TouchableOpacity onPress={() => props.navigateOption.navigate("Explore")} style={styles.button}><Text style={{fontFamily:'Nunito-Medium', color:'white'}}>Share</Text></TouchableOpacity>
+        <TouchableOpacity onPress={newPost} style={styles.button}><Text style={{fontFamily:'Nunito-Medium', color:'white'}}>Share</Text></TouchableOpacity>
     </View>
     </View>
   )

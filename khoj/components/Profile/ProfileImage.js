@@ -2,7 +2,7 @@ import { StyleSheet, Image } from "react-native"
 
 export default function ProfileImage(props){
     return (
-        <Image source={{uri: props.source}} style={styles.profileImg} alt="profile pic"/>
+        <Image source={props.source ? {uri: props.source} : null} style={styles.profileImg} alt="profile pic"/>
     )
 }
 

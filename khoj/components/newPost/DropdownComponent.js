@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { TAGS } from '../../data/tagsData';
 
-const DropdownComponent = () => {
+const DropdownComponent = ({setTag}) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -32,6 +32,7 @@ const DropdownComponent = () => {
         onChange={item => {
           setValue(item.value);
           setIsFocus(false);
+          setTag(item.tagName)
         }}
       />
     </View>
