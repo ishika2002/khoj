@@ -7,6 +7,7 @@ import InputBox from "./InputBox"
 import GoogleAuth from "./GoogleAuth"
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from '../../firebase'
+import { getDatabase, ref, set } from "firebase/database";
 
 export default function SignupPage({navigation}){
     const [email, setEmail] = useState('');
@@ -17,14 +18,26 @@ export default function SignupPage({navigation}){
     const submit = () => {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
-            updateProfile(userCredentials.user, {
-                displayName: name
-            })
+            writeUserData(userCredentials.user.uid, name, username, email)
         })
         .catch((err) => {
             console.log(err.message)
         })
     }
+
+    function writeUserData(userId, name, username, email) {
+        const db = getDatabase();
+        set(ref(db, 'users/' + userId), {
+            name: name,
+            username: username,
+            email: email,
+            profileUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+            postCount: 0,
+            streakCount: 0,
+            posts: [],
+            streaks: [],
+        }).then(() => {navigation.navigate("Explore")});
+      }
 
     return (
         <Layout>

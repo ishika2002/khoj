@@ -12,18 +12,18 @@ import SignupPage from './components/Authentication/SignupPage';
 import ProfilePage from './components/Profile/ProfilePage';
 import EditPage from './components/Profile/EditPage';
 // import {app} from './firebase'
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAlY36y1_I16FPTU0UHQBHk4FvSIqamxwo",
-  authDomain: "khoj-65c23.firebaseapp.com",
-  projectId: "khoj-65c23",
-  storageBucket: "khoj-65c23.appspot.com",
-  messagingSenderId: "427182530082",
-  appId: "1:427182530082:web:1fe26b80b0e79c5436b47b",
-  measurementId: "G-8P0JBFXFZK"
-};
-const app = initializeApp(firebaseConfig);
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAlY36y1_I16FPTU0UHQBHk4FvSIqamxwo",
+//   authDomain: "khoj-65c23.firebaseapp.com",
+//   projectId: "khoj-65c23",
+//   storageBucket: "khoj-65c23.appspot.com",
+//   messagingSenderId: "427182530082",
+//   appId: "1:427182530082:web:1fe26b80b0e79c5436b47b",
+//   measurementId: "G-8P0JBFXFZK"
+// };
+// const app = initializeApp(firebaseConfig);
 const Stack = createNativeStackNavigator();
 
 export default function App() {

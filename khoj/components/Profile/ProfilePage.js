@@ -4,17 +4,32 @@ import Layout from "../Layout"
 import { useState } from "react"
 import Icon from 'react-native-vector-icons/AntDesign'
 import ProfileImage from "./ProfileImage"
-import { auth } from "../../firebase"
+import { auth, database } from "../../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
+import { getDatabase, ref, onValue} from "firebase/database";
+
+// const db = getDatabase();
 
 export default function ProfilePage({navigation}){
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
+    const [profileUrl, setProfileUrl] = useState('');
+    const [postCount, setPostCount] = useState(0);
+    const [streakCount, setStreakCount] = useState(0);
 
     onAuthStateChanged(auth, (user) => {
         if(user){
-            setName(user.displayName);
-            setUsername(user.displayName)
+            const userDetails = ref(database, 'users/' + user.uid);
+            onValue(userDetails, (snapshot) => {
+            const data = snapshot.val();
+            // updateStarCount(postElement, data);
+            setName(data.name);
+            setUsername(data.username);
+            setProfileUrl(data.profileUrl);
+            setPostCount(data.postCount);
+            setStreakCount(data.streakCount);
+            console.log(typeof(profileUrl))
+            });
         }else{
           console.log("signed out")
         }
@@ -50,7 +65,7 @@ export default function ProfilePage({navigation}){
                 </View>
                 <View style={styles.profileheader}>
                     <View style={{alignItems: 'center'}}>
-                        <ProfileImage source="https://images.unsplash.com/photo-1526045612212-70caf35c14df"/>
+                        <ProfileImage source={profileUrl}/>
                         <Text 
                             style={{paddingTop: 10, fontFamily: 'Nunito-Bold', fontSize: 20, color: '#1c315e' }}
                         >{username}</Text>
@@ -61,11 +76,11 @@ export default function ProfilePage({navigation}){
                     </TouchableOpacity>
                     <View style={styles.briefDetails}>
                         <View style={{alignItems: 'center'}}>
-                            <Text style={styles.number}>88</Text>
+                            <Text style={styles.number}>{postCount}</Text>
                             <Text style={{color: "#1c315e", fontFamily: 'Nunito-Medium'}}>Posts</Text>
                         </View>
                         <View style={{alignItems: 'center'}}>
-                            <Text style={styles.number}>9</Text>
+                            <Text style={styles.number}>{streakCount}</Text>
                             <Text style={{color: "#1c315e"}}>Streaks</Text>
                         </View>
                     </View>
