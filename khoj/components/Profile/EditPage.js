@@ -3,25 +3,28 @@ import Layout from '../Layout';
 import ProfileImage from './ProfileImage';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
-import { auth, database } from "../../firebase"
+import { auth, database, storage } from "../../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, child, push, update, onValue } from "firebase/database";
+import { ref as REF, uploadBytes, getDownloadURL}  from "firebase/storage";
 
 export default function EditPage({navigation}) {
 
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const [uid, setUid] = useState('');
 
-    let oldName, oldUsername
+    let oldName, oldUsername, profileImageDefault;
 
     const userDetails = ref(database, 'users/' + uid);
             onValue(userDetails, (snapshot) => {
             const data = snapshot.val();
             oldName=data.name;
             oldUsername=data.username;
-            });
+            profileImageDefault=data.profileUrl
+    });
 
     onAuthStateChanged(auth, (user) => {
         if(user){
@@ -36,6 +39,7 @@ export default function EditPage({navigation}) {
           name: name.length!==0 ? name : oldName,
           username: username.length!==0 ? username : oldUsername,
       });
+        uploadImage()
         navigation.navigate("Profile");
       }
 
@@ -48,20 +52,37 @@ export default function EditPage({navigation}) {
       quality: 1,
     });
 
-    // console.log(result);
-
-    // if (!result.canceled) {
-    //   setImage(result.assets[0].uri);
-    // }
     setImage(result.assets[0].uri);
   };
+
+  const uploadImage = async () => {
+    setUploading(true);
+
+    if(image !== null){
+      const response = await fetch(image)
+      const blob = await response.blob()
+
+      const storageRef = REF(storage, 'profileImages/'+uid);
+
+      uploadBytes(storageRef, blob).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+      });
+      
+      setUploading(false)
+      setImage(null);
+      const profileImageDetails = REF(storage, 'profileImages/' + uid)
+      image !== null && getDownloadURL(profileImageDetails).then((url) => {
+        image !== null && update(ref(database, 'users/'+uid), {profileUrl: url})
+      })
+    }
+  }
 
     return (
         <Layout>
             <View style={styles.editBox}>
                 <Text style={styles.title}>EDIT PROFILE</Text>
                 <View style={{opacity: 0.6, alignItems: 'center'}}>
-                    <ProfileImage source={image}/>
+                    <ProfileImage source={image ? image : profileImageDefault}/>
                     <TouchableOpacity onPress={pickImage}>
                         <Text style={{textDecorationLine: 'underline', padding: 10, fontFamily: 'Nunito-Medium'}}>Change Profile Photo</Text>
                     </TouchableOpacity>

@@ -4,9 +4,10 @@ import Layout from "../Layout"
 import { useState, useEffect } from "react"
 import Icon from 'react-native-vector-icons/AntDesign'
 import ProfileImage from "./ProfileImage"
-import { auth, database } from "../../firebase"
+import { auth, database, storage } from "../../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, onValue} from "firebase/database";
+import { getDatabase, ref, onValue, update} from "firebase/database";
+import { ref as REF, onValue as ONVALUE, getDownloadURL}  from "firebase/storage";
 
 // const db = getDatabase();
 
@@ -30,6 +31,7 @@ export default function ProfilePage({navigation}){
 
             setName(data.name);
             setUsername(data.username);
+            console.log(data.profileUrl)
             setProfileUrl(data.profileUrl);
             setPostCount(data.postCount);
             setStreakCount(data.streakCount);
@@ -71,8 +73,8 @@ export default function ProfilePage({navigation}){
                 setStarredPosts([...starredPosts,allStarredPosts])
             }
             // setStarredPosts(allStarredPosts)
-            console.log(starredPosts)
         })
+
       }, [uid])
 
     const postsImages = [
