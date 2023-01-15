@@ -28,6 +28,8 @@ const Post = ({post, navigateOption}) => {
     const [profileUrl, setProfileUrl] = useState('');
     const [uid, setuid] = useState('');
     const [starred, setStarred] = useState(false);
+    const [liked, setLiked] = useState(false);
+    const [postLikes, setPostLikes] = useState(0);
 
     onAuthStateChanged(auth, (user) => {
         if(user){
@@ -39,6 +41,8 @@ const Post = ({post, navigateOption}) => {
             setuid(user.uid);
             setUsername(data.username);
             setProfileUrl(data.profileUrl);
+            setPostLikes(data.posts[post.key].likes)
+            console.log("strating likes: ", postLikes)
         
             });
         }else{
@@ -57,6 +61,25 @@ const Post = ({post, navigateOption}) => {
         }
       }
 
+      const likedPost = () => {
+        if(!liked){
+            set(ref(database, 'users/' + uid + '/liked/' + post.key), true)
+            setLiked(true)
+            
+            update(ref(database, 'users/' + post.author + '/posts/' + post.key),{likes: postLikes+1})
+            update(ref(database, 'posts/' + post.key),{likes: postLikes+1})
+            update(ref(database, post.tag + '/' + post.key), {likes: postLikes+1})
+
+        }else{
+            remove(ref(database, 'users/' + uid + '/liked/' + post.key))
+            setLiked(false)
+
+            update(ref(database, 'users/' + post.author + '/posts/' + post.key),{likes: postLikes-1})
+            update(ref(database, 'posts/' + post.key),{likes: postLikes-1})
+            update(ref(database, post.tag + '/' + post.key), {likes: postLikes-1})
+        }
+      }
+
       useEffect(() => {
         
         const starredDetails = ref(database, 'users/' + uid + '/starred/' + post.key);
@@ -67,6 +90,16 @@ const Post = ({post, navigateOption}) => {
                 setStarred(true)
             }
         })
+
+        const likedDetails = ref(database, 'users/' + uid + '/liked/' + post.key);
+        onValue(likedDetails, (snapshot) => {
+            const data=snapshot.val();
+            
+            if(data!==null){
+                setLiked(true)
+            }
+        })
+
       }, [uid])
 
 
@@ -76,7 +109,7 @@ const Post = ({post, navigateOption}) => {
         <PostHeader username={username} profileUrl={profileUrl}/>
         <PostImage post={post} />
         <View style={{marginHorizontal: 15, marginTop: 10}}>
-            <PostFooter post={post} navigateOption={navigateOption} starPost={starPost} starred={starred}/>
+            <PostFooter post={post} navigateOption={navigateOption} starPost={starPost} starred={starred} liked={liked} likedPost={likedPost}/>
             <Likes post={post} />
             <Heading post={post} />
             <MoreInfo  post={post} navigateOption={navigateOption}/>
@@ -104,7 +137,7 @@ const PostImage = ({post}) => (
     </View>
 )
 
-const PostFooter = ({post, navigateOption, starPost, starred}) => (
+const PostFooter = ({post, navigateOption, starPost, starred, liked, likedPost}) => (
     <View style={{flexDirection:'row', height:25, justifyContent:'space-between'}}>
         <View>
             <TouchableOpacity style={styles.tag}>
@@ -112,8 +145,8 @@ const PostFooter = ({post, navigateOption, starPost, starred}) => (
             </TouchableOpacity>
         </View>
         <View style={styles.footerIconContainer}>
-            <TouchableOpacity>
-                <Image style={styles.footerIcon} source={postFooterIcons[0].imageUrl} />
+            <TouchableOpacity onPress={() => likedPost()}>
+                <Image style={styles.footerIcon} source={!liked ? postFooterIcons[0].imageUrl : postFooterIcons[0].likedImageUrl} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigateOption.navigate("Commment Section")}>
                 <Image style={styles.footerIcon} source={postFooterIcons[1].imageUrl} />
