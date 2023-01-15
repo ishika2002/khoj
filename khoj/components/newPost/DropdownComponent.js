@@ -19,7 +19,7 @@ const DropdownComponent = ({setTag}) => {
         itemContainerStyle={{margin:3, height:55, fontFamily:'Nunito-Medium'}}
         itemTextStyle={{color:'white', fontSize:14, fontFamily:'Nunito-Medium'}}
         activeColor='#475b80'
-        data={TAGS}
+        data={TAGS.slice(1)}
         search
         maxHeight={300}
         labelField="tagName"

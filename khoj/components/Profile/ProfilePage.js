@@ -17,6 +17,7 @@ export default function ProfilePage({navigation}){
     const [postCount, setPostCount] = useState(0);
     const [streakCount, setStreakCount] = useState(0);
     const [posts, setPosts] = useState([]);
+    const [starredPosts, setStarredPosts] = useState([]);
     const [uid, setUid] = useState('');
 
     onAuthStateChanged(auth, (user) => {
@@ -40,15 +41,37 @@ export default function ProfilePage({navigation}){
 
       useEffect(() => {
         const userDetails = ref(database, 'users/' + uid);
+        const allStarredPostsKeys = []
         onValue(userDetails, (snapshot) => {
             const data = snapshot.val();
             const allPosts = []
+            
             for(const item in data.posts){
                 var obj = data.posts[item];
                 obj["key"] = item;
                 allPosts.push(data.posts[item])
                 setPosts([...posts,allPosts])
             }
+
+            for(const item in data.starred){
+                allStarredPostsKeys.push(item)
+            }
+
+            // console.log(allStarredPostsKeys)
+        })
+        const postDetails = ref(database, 'posts/');
+        onValue(postDetails, (snapshot) => {
+            const data = snapshot.val()
+            // console.log(data)
+            const allStarredPosts = []
+
+            for(const item in allStarredPostsKeys){
+                console.log(data[allStarredPostsKeys[item]])
+                allStarredPosts.push(data[allStarredPostsKeys[item]])
+                setStarredPosts([...starredPosts,allStarredPosts])
+            }
+            // setStarredPosts(allStarredPosts)
+            console.log(starredPosts)
         })
       }, [uid])
 
@@ -128,20 +151,28 @@ export default function ProfilePage({navigation}){
                         renderItem={({item}) => {
                             console.log(item.key)
                             return (
-                                <Image 
-                                    source={{uri: item.imageUrl}} 
-                                    style={styles.images}
-                                />
+                                <TouchableOpacity onPress={() => {
+                                    navigation.navigate('More Info', {
+                                      postId:item.key,
+                                    });
+                                  }}>
+                                    <Image 
+                                        source={{uri: item.imageUrl}} 
+                                        style={styles.images}
+                                    />
+                                </TouchableOpacity>
                             )
                         }}
                     /> : null : (visible==1 ? <FlatList 
                     numColumns={3}
-                    data={starredImages}
+                    data={starredPosts[0]}
                     scrollEnabled={false}
+                    extraData={starredPosts}
                     renderItem={({item}) => {
+                        console.log("item "+item)
                         return (
                             <Image 
-                                source={{uri: item}} 
+                                source={{uri: item.imageUrl}} 
                                 style={styles.images}
                             />
                         )

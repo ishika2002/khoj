@@ -35,7 +35,7 @@ export default function SignupPage({navigation}){
             postCount: 0,
             streakCount: 0,
             posts: [],
-            streaks: [],
+            starred: [],
         }).then(() => {navigation.navigate("Explore")});
       }
 

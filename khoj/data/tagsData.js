@@ -1,4 +1,5 @@
 export const TAGS = [
+    {tagName : 'All', value:'0'},
     {tagName : 'Delhi', value:'1'},
     {tagName : 'Street Food', value:'2'},
     {tagName : 'Monuments', value:'3'},

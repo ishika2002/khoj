@@ -1,10 +1,47 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, StatusBar} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Divider } from 'react-native-elements';
 import FontContainer from '../components/FontContainer';
+import { auth, database } from "../firebase"
+import { onAuthStateChanged } from 'firebase/auth';
+import { getDatabase, ref, onValue} from "firebase/database";
 
-const MoreInfo = ({navigation}) => {
+const MoreInfo = ({navigation, route}) => {
+    const {postId} = route.params;
+
+    const [heading, setHeading] = useState('');
+    const [description, setDescription] = useState('');
+    const [location, setLocation] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+    const [tag, setTag] = useState('');
+    const [likes, setLikes] = useState('');
+    const [uid, setUid] = useState('');
+    const [comments, setComments] = useState('');
+
+    onAuthStateChanged(auth, (user) => {
+        if(user){
+            
+            const postDetails = ref(database, 'posts/' + postId);
+            onValue(postDetails, (snapshot) => {
+            const data = snapshot.val();
+            console.log(data)
+            setHeading(data.heading)
+            setDescription(data.description);
+            setLocation(data.location);
+            setImageUrl(data.imageUrl);
+            setTag(data.tag);
+            setLikes(data.likes);
+            setUid(data.uid);
+            setComments(data.comments);
+
+            console.log(heading+" "+description)
+            });
+        }else{
+        console.log("signed out")
+        }
+    })
+
   return (
     <FontContainer>
     <SafeAreaView style={{backgroundColor:'#2B3A55', flex: 1}}>
@@ -12,14 +49,29 @@ const MoreInfo = ({navigation}) => {
             <View style={styles.container}>
                 <Header navigateOption={navigation}/>
                 <View style={styles.outer}>
-                    <Image source={require('../assets/park.jpg')} style={{width: 350, height: 350}}/>
-                    <Heading />
-                    <Divider width={1} orientation='vertical' />
-                    <Description />
-                    <View style={{flexDirection:'row', marginTop:30}}>
-                        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'white'}}>Location: </Text>
-                        <Location />
+                    <Image source={{uri: imageUrl}} style={{width: 350, height: 350}}/>
+                    <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around', margin:10}}>
+                        <View style={{flex:1}}>
+                            <Likes likes={likes} />
+                        </View>
+                        <View style={{flex:1}}>
+                            <TouchableOpacity style={styles.tag}>
+                                <Text style={[styles.name, {textAlign:'center'}]}>{tag}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex:1, alignItems:'flex-end'}}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Commment Section")}>
+                                <Image style={styles.footerIcon} source={require('../assets/commentWhite.png')} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
+                    <Heading heading={heading}/>
+                    <Divider width={1} orientation='vertical' />
+                    <View style={{flexDirection:'row', marginTop:20, marginBottom:10}}>
+                        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'white'}}>Location: </Text>
+                        <Location location={location}/>
+                    </View>
+                    <Description description={description}/>
                 </View>
             </View>
         </ScrollView>
@@ -38,21 +90,27 @@ const Header = ({navigateOption}) => (
     </View>
 )
 
-const Heading =() => (
-    <View style={{marginTop: 5}}>
-        <Text style={styles.heading}>Perfect picnic spot - Sunder Nursery</Text>
-    </View>
-)
-
-const Description =() => (
-    <View style={{marginTop: 5}}>
-        <Text style={styles.description}>On a winter afternoon, under the sun sitting along with your friends and revisiting all old memories for all this whats better place than Sunder Nursery</Text>
-    </View>
-)
-
-const Location =() => (
+const Heading =({heading}) => (
     <View>
-        <Text style={styles.location}>Near Jor Bagh metro station</Text>
+        <Text style={styles.heading}>{heading}</Text>
+    </View>
+)
+
+const Description =({description}) => (
+    <View style={{marginTop: 5}}>
+        <Text style={styles.description}>{description}</Text>
+    </View>
+)
+
+const Location =({location}) => (
+    <View>
+        <Text style={styles.location}>{location}</Text>
+    </View>
+)
+
+const Likes =({likes}) => (
+    <View style={{flexDirection:'row', justifyContent:'flex-start', marginLeft: 4}}>
+        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'white'}}>{likes} likes</Text>
     </View>
 )
 
@@ -96,6 +154,25 @@ const styles = StyleSheet.create({
         fontFamily:'Nunito-Light',
         fontSize: 13,
         color:'white',
+    },
+    tag:{
+        backgroundColor:'#CE7777',
+        paddingBottom:5,
+        paddingTop:5,
+        paddingLeft:10,
+        paddingRight:10,
+        borderRadius:10,
+        height:30,
+    },
+    name:{
+        color:'white',
+        fontSize:13,
+        // fontWeight:'500',
+        fontFamily:'Nunito-Bold',
+    },
+    footerIcon:{
+        width:25,
+        height:25,
     },
   });
 

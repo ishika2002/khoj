@@ -2,7 +2,7 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-nati
 import React from 'react';
 import { TAGS } from '../../data/tagsData';
 
-const Tags = () => {
+const Tags = ({filterPosts}) => {
   return (
     <View style={{marginBottom: 20}}>
         <ScrollView 
@@ -10,7 +10,7 @@ const Tags = () => {
         showsHorizontalScrollIndicator={false}
         >
             {TAGS.map((tag, index)=>(
-                <TouchableOpacity style={styles.tag} key={index}>
+                <TouchableOpacity style={styles.tag} key={index} onPress={()=>filterPosts(tag.tagName)}>
                     <Text style={styles.name}>{tag.tagName}</Text>
                 </TouchableOpacity>
             ))}

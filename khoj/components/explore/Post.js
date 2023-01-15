@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Divider } from 'react-native-elements';
+import { auth, database } from "../../firebase"
+import { onAuthStateChanged } from 'firebase/auth';
+import { getDatabase, ref, child, push, update, onValue, set, remove } from "firebase/database";
 
 const postFooterIcons = [
     {
@@ -20,13 +23,60 @@ const postFooterIcons = [
 ]
 
 const Post = ({post, navigateOption}) => {
+
+    const [username, setUsername] = useState('');
+    const [profileUrl, setProfileUrl] = useState('');
+    const [uid, setuid] = useState('');
+    const [starred, setStarred] = useState(false);
+
+    onAuthStateChanged(auth, (user) => {
+        if(user){
+
+            const userDetails = ref(database, 'users/' + post.author);
+            onValue(userDetails, (snapshot) => {
+            const data = snapshot.val();
+
+            setuid(user.uid);
+            setUsername(data.username);
+            setProfileUrl(data.profileUrl);
+        
+            });
+        }else{
+          console.log("signed out")
+        }
+      })
+
+      const starPost = () => {
+        if(!starred){
+            set(ref(database, 'users/' + uid + '/starred/' + post.key), true)
+            console.log(post.key )
+            setStarred(true)
+        }else{
+            remove(ref(database, 'users/' + uid + '/starred/' + post.key))
+            setStarred(false)
+        }
+      }
+
+      useEffect(() => {
+        
+        const starredDetails = ref(database, 'users/' + uid + '/starred/' + post.key);
+        onValue(starredDetails, (snapshot) => {
+            const data=snapshot.val();
+            
+            if(data!==null){
+                setStarred(true)
+            }
+        })
+      }, [uid])
+
+
   return (
     <View style={{marginBottom: 30}}>
         <Divider width={1} orientation='vertical' />
-        <PostHeader post={post} />
+        <PostHeader username={username} profileUrl={profileUrl}/>
         <PostImage post={post} />
         <View style={{marginHorizontal: 15, marginTop: 10}}>
-            <PostFooter post={post} navigateOption={navigateOption}/>
+            <PostFooter post={post} navigateOption={navigateOption} starPost={starPost} starred={starred}/>
             <Likes post={post} />
             <Heading post={post} />
             <MoreInfo  post={post} navigateOption={navigateOption}/>
@@ -35,11 +85,11 @@ const Post = ({post, navigateOption}) => {
   )
 }
 
-const PostHeader = ({post}) => (
+const PostHeader = ({username, profileUrl}) => (
     <View style={styles.outer}>
         <TouchableOpacity style={styles.inner}>
-            <Image source={post.profile_photo} style={styles.image}/>
-            <Text style={[styles.username, {fontFamily:'Nunito-XBold'}]}>{post.user}</Text>
+            <Image source={{uri: profileUrl}} style={styles.image}/>
+            <Text style={[styles.username, {fontFamily:'Nunito-XBold'}]}>{username}</Text>
         </TouchableOpacity>
     </View>
 )
@@ -48,13 +98,13 @@ const PostImage = ({post}) => (
     <View style={styles.postImage}>
         <Divider width={1} orientation='vertical' />
         <Image 
-            source={post.imageURL}
+            source={{uri: post.imageUrl}}
             style={{height:'100%', width:'100%'}} 
         />
     </View>
 )
 
-const PostFooter = ({post, navigateOption}) => (
+const PostFooter = ({post, navigateOption, starPost, starred}) => (
     <View style={{flexDirection:'row', height:25, justifyContent:'space-between'}}>
         <View>
             <TouchableOpacity style={styles.tag}>
@@ -68,8 +118,8 @@ const PostFooter = ({post, navigateOption}) => (
             <TouchableOpacity onPress={() => navigateOption.navigate("Commment Section")}>
                 <Image style={styles.footerIcon} source={postFooterIcons[1].imageUrl} />
             </TouchableOpacity>
-            <TouchableOpacity>
-                <Image style={styles.footerIcon} source={postFooterIcons[2].imageUrl} />
+            <TouchableOpacity onPress={() => starPost()}>
+                <Image style={styles.footerIcon} source={!starred ? postFooterIcons[2].imageUrl : postFooterIcons[2].savedImageUrl} />
             </TouchableOpacity>
         </View>
     </View>
@@ -88,7 +138,11 @@ const Heading =({post}) => (
 )
 
 const MoreInfo =({post, navigateOption}) => (
-    <TouchableOpacity onPress={() => navigateOption.navigate("More Info")}>
+    <TouchableOpacity onPress={() => {
+        navigateOption.navigate('More Info', {
+          postId:post.key,
+        });
+      }}>
         <Text style={{marginLeft: 4, color:'gray', fontSize: 13, fontFamily:'Nunito-Medium'}}>More info...</Text>
     </TouchableOpacity>
 )

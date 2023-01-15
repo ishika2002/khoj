@@ -72,7 +72,18 @@ const PostUploader = (props) => {
             comments: [],
             author: uid
         })
-      });
+      }).then(() => {
+        update(ref(database, 'posts/' + newPostKey), {
+            imageUrl: 'https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg',
+            tag: tag,
+            likes: 0,
+            heading: heading,
+            description: description,
+            location: location,
+            comments: [],
+            author: uid
+        })
+      });;
         props.navigateOption.navigate("Profile");
       }
 
@@ -82,7 +93,6 @@ const PostUploader = (props) => {
         <View style={styles.outer}>
                 <TouchableOpacity onPress={pickImage}>
                     <Image source={postImage ? {uri: postImage} : placeHolderImg} style={styles.photo}/>
-                    {/* {postImage && <Image source={{ uri: postImage }} style={{ width: 200, height: 200 }} />} */}
                 </TouchableOpacity>
                 <View style={styles.inner}>
                     <TextInput 
@@ -92,9 +102,6 @@ const PostUploader = (props) => {
                     multiline={true}
                     maxLength={100}
                     onChangeText={(heading) => setHeading(heading)}
-                    // onChangeText={handleChange('heading')}
-                    // onBlur={handleBlur('heading')}
-                    // value={values.heading}
                     />
 
                     <Divider width={1} orientation='vertical' />
@@ -115,14 +122,6 @@ const PostUploader = (props) => {
                     <DropdownComponent setTag={(tag) => setTag(tag)}/>
     
                 <Divider width={1} orientation='vertical' />
-                    {/* <TextInput 
-                    style={styles.lowerFields}
-                    placeholder='Select the tag' 
-                    placeholderTextColor='gray'
-                    // onChangeText={handleChange('tag')}
-                    // onBlur={handleBlur('tag')}
-                    // value={values.tag}
-                    /> */}
                     <TextInput 
                     style={styles.lowerFields}
                     placeholder='Add the description...' 
@@ -132,16 +131,10 @@ const PostUploader = (props) => {
                     numberOfLines={35}
                     textAlignVertical='top'
                     onChangeText={(description) => setDescription(description)}
-                    // onChangeText={handleChange('description')}
-                    // onBlur={handleBlur('description')}
-                    // value={values.description}
                     />
-                    
-                {/* <Divider width={1} orientation='vertical' /> */}
             </View>
     </ScrollView>
     <View style={styles.buttonOuter}>
-        {/* <Button onPress={() => props.navigateOption.navigate("Explore")} title='Share' /> */}
         <TouchableOpacity onPress={newPost} style={styles.button}><Text style={{fontFamily:'Nunito-Medium', color:'white'}}>Share</Text></TouchableOpacity>
     </View>
     </View>
