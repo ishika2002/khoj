@@ -6,4 +6,5 @@ export const TAGS = [
     {tagName : 'Cafes', value:'4'},
     {tagName : 'Museums', value:'5'},
     {tagName : 'South Delhi', value:'6'},
+    {tagName: 'Others', value:'7'}
 ] 
