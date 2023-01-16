@@ -63,17 +63,16 @@ const ExploreScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <Header navigateOption={navigation}/>
       <Tags filterPosts={filterPosts}/>
-      <FlatList
+      {posts !== null && <FlatList
         numColumns={1}
         data={posts}
         extraData={posts}
         renderItem={({item}) => {
-          console.log(item)
           return (
             <Post post={item} navigateOption={navigation}/>
           )
       }}
-      />
+      />}
       <BottomTab navigateOption={navigation}/>
     </SafeAreaView>
     </FontContainer>

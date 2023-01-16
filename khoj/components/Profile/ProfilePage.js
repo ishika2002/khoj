@@ -31,7 +31,6 @@ export default function ProfilePage({navigation}){
 
             setName(data.name);
             setUsername(data.username);
-            console.log(data.profileUrl)
             setProfileUrl(data.profileUrl);
             setPostCount(data.postCount);
             setStreakCount(data.streakCount);
@@ -68,8 +67,9 @@ export default function ProfilePage({navigation}){
             const allStarredPosts = []
 
             for(const item in allStarredPostsKeys){
-                console.log(data[allStarredPostsKeys[item]])
-                allStarredPosts.push(data[allStarredPostsKeys[item]])
+                var obj = data[allStarredPostsKeys[item]];
+                obj["key"] = allStarredPostsKeys[item];
+                allStarredPosts.push(obj)
                 setStarredPosts([...starredPosts,allStarredPosts])
             }
             // setStarredPosts(allStarredPosts)
@@ -151,7 +151,6 @@ export default function ProfilePage({navigation}){
                         scrollEnabled={false}
                         extraData={posts}
                         renderItem={({item}) => {
-                            console.log(item.key)
                             return (
                                 <TouchableOpacity onPress={() => {
                                     navigation.navigate('More Info', {
@@ -171,12 +170,17 @@ export default function ProfilePage({navigation}){
                     scrollEnabled={false}
                     extraData={starredPosts}
                     renderItem={({item}) => {
-                        console.log("item "+item)
                         return (
-                            <Image 
-                                source={{uri: item.imageUrl}} 
-                                style={styles.images}
-                            />
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate('More Info', {
+                                  postId:item.key,
+                                });
+                            }}>
+                                <Image 
+                                    source={{uri: item.imageUrl}} 
+                                    style={styles.images}
+                                />
+                            </TouchableOpacity>
                         )
                     }}
                     /> : <FlatList 

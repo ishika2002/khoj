@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { Button, Divider } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import DropdownComponent from './DropdownComponent';
-import { auth, database } from "../../firebase"
+import { auth, database, storage } from "../../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, child, push, update, onValue } from "firebase/database";
-
+import { ref as REF, uploadBytes, getDownloadURL}  from "firebase/storage";
 const PostUploader = (props) => {
 
     const placeHolderImg = require('../../assets/placeHolder.png');
@@ -18,6 +18,9 @@ const PostUploader = (props) => {
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
     let postCount;
+    const newPostKey = push(child(ref(database), 'posts')).key;
+
+    const [uploading, setUploading] = useState(false);
 
     const userDetails = ref(database, 'users/' + uid);
         onValue(userDetails, (snapshot) => {
@@ -47,44 +50,73 @@ const PostUploader = (props) => {
       setPostImage(result.assets[0].uri);
     };
 
+    const uploadImage = async () => {
+      setUploading(true);
+  
+      if(postImage !== null){
+        console.log("post image: ",postImage);
+        const response = await fetch(postImage)
+        const blob = await response.blob()
+  
+        const storageRef = REF(storage, 'postImages/'+newPostKey);
+  
+        uploadBytes(storageRef, blob).then((snapshot) => {
+          console.log('Uploaded a blob or file!');
+        }).then(() => {
+          getDownloadURL(storageRef).then((url) => {
+            setUploading(false)
+            setPostImage(url);
+            console.log("postImage: ",postImage)
+          })
+        });
+        
+        // const profileImageDetails = REF(storage, 'profileImages/' + uid)
+        // image !== null && getDownloadURL(profileImageDetails).then((url) => {
+        //   image !== null && update(ref(database, 'users/'+uid), {profileUrl: url})
+        // })
+      }
+    }
+
     const newPost = () => {
-        const newPostKey = push(child(ref(database), 'posts')).key;
-        update(ref(database, 'users/' + uid + '/posts/' + newPostKey), {
-          imageUrl: 'https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg',
-          tag: tag,
-          likes: 0,
-          heading: heading,
-          description: description,
-          location: location,
-          comments: [],
-      }).then(()=> {
-        update(ref(database, 'users/' + uid),{
-            postCount: postCount+1
-        })
-      }).then(() => {
-        update(ref(database, tag + '/' + newPostKey), {
-            imageUrl: 'https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg',
+        uploadImage().then((value) => {
+          console.log("value: ",value);
+          update(ref(database, 'users/' + uid + '/posts/' + newPostKey), {
+            imageUrl: postImage,
             tag: tag,
             likes: 0,
             heading: heading,
             description: description,
             location: location,
             comments: [],
-            author: uid
+        }).then(()=> {
+          update(ref(database, 'users/' + uid),{
+              postCount: postCount+1
+          })
+        }).then(() => {
+          update(ref(database, tag + '/' + newPostKey), {
+              imageUrl: postImage,
+              tag: tag,
+              likes: 0,
+              heading: heading,
+              description: description,
+              location: location,
+              comments: [],
+              author: uid
+          })
+        }).then(() => {
+          update(ref(database, 'posts/' + newPostKey), {
+              imageUrl: postImage,
+              tag: tag,
+              likes: 0,
+              heading: heading,
+              description: description,
+              location: location,
+              comments: [],
+              author: uid
+          })
+        });;
+          props.navigateOption.navigate("Profile");
         })
-      }).then(() => {
-        update(ref(database, 'posts/' + newPostKey), {
-            imageUrl: 'https://assets.traveltriangle.com/blog/wp-content/uploads/2016/07/limestone-rock-phang-nga-1-Beautiful-limestone-rock-in-the-ocean.jpg',
-            tag: tag,
-            likes: 0,
-            heading: heading,
-            description: description,
-            location: location,
-            comments: [],
-            author: uid
-        })
-      });;
-        props.navigateOption.navigate("Profile");
       }
 
   return (

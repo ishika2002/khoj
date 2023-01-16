@@ -42,7 +42,6 @@ const Post = ({post, navigateOption}) => {
             setUsername(data.username);
             setProfileUrl(data.profileUrl);
             setPostLikes(data.posts[post.key].likes)
-            console.log("strating likes: ", postLikes)
         
             });
         }else{
@@ -53,7 +52,6 @@ const Post = ({post, navigateOption}) => {
       const starPost = () => {
         if(!starred){
             set(ref(database, 'users/' + uid + '/starred/' + post.key), true)
-            console.log(post.key )
             setStarred(true)
         }else{
             remove(ref(database, 'users/' + uid + '/starred/' + post.key))
@@ -121,7 +119,7 @@ const Post = ({post, navigateOption}) => {
 const PostHeader = ({username, profileUrl}) => (
     <View style={styles.outer}>
         <TouchableOpacity style={styles.inner}>
-            <Image source={{uri: profileUrl}} style={styles.image}/>
+            <Image source={profileUrl ? {uri: profileUrl} : null} style={styles.image}/>
             <Text style={[styles.username, {fontFamily:'Nunito-XBold'}]}>{username}</Text>
         </TouchableOpacity>
     </View>
@@ -131,7 +129,7 @@ const PostImage = ({post}) => (
     <View style={styles.postImage}>
         <Divider width={1} orientation='vertical' />
         <Image 
-            source={{uri: post.imageUrl}}
+            source={post.imageUrl ? {uri: post.imageUrl} : null}
             style={{height:'100%', width:'100%'}} 
         />
     </View>

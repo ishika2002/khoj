@@ -66,14 +66,14 @@ export default function EditPage({navigation}) {
 
       uploadBytes(storageRef, blob).then((snapshot) => {
         console.log('Uploaded a blob or file!');
+      }).then(() => {
+        setUploading(false)
+        setImage(null);
+        const profileImageDetails = REF(storage, 'profileImages/' + uid)
+        getDownloadURL(profileImageDetails).then((url) => {
+          update(ref(database, 'users/'+uid), {profileUrl: url})
+        })
       });
-      
-      setUploading(false)
-      setImage(null);
-      const profileImageDetails = REF(storage, 'profileImages/' + uid)
-      image !== null && getDownloadURL(profileImageDetails).then((url) => {
-        image !== null && update(ref(database, 'users/'+uid), {profileUrl: url})
-      })
     }
   }
 
@@ -87,12 +87,22 @@ export default function EditPage({navigation}) {
                         <Text style={{textDecorationLine: 'underline', padding: 10, fontFamily: 'Nunito-Medium'}}>Change Profile Photo</Text>
                     </TouchableOpacity>
                 </View>
-                <TextInput style={styles.textBox} placeholder={oldName} onChangeText={(name) => setName(name)}/>
-                <TextInput style={styles.textBox} placeholder={oldUsername} onChangeText={(username) => setUsername(username)}/>
-                <TouchableOpacity style={[styles.textBox, styles.savebutton]} onPress={saveChanges}>
+                <View style={{flexDirection: 'row', alignItems: 'center', width: '85%'}}>
+                  <View style={[styles.label,{backgroundColor: '#CE7777'}]}>
+                    <Text style={{color: '#fff', textAlign: 'center'}}>Name</Text>
+                  </View>
+                  <TextInput maxLength={20} style={[styles.textBox]} placeholder={oldName} onChangeText={(name) => setName(name)}/>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', width: '85%'}}>
+                  <View style={[styles.label,{backgroundColor: '#CE7777'}]}>
+                    <Text style={{color: '#fff', textAlign: 'center'}}>Username</Text>
+                  </View>
+                  <TextInput maxLength={20} style={styles.textBox} placeholder={oldUsername} onChangeText={(username) => setUsername(username)}/>
+                </View>
+                <TouchableOpacity style={[styles.savebutton,{backgroundColor: '#CE7777'}]} onPress={saveChanges}>
                     <Text style={{color:'#F2E5E5', fontFamily: 'Nunito-Medium'}}>Save Changes</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.textBox, {borderColor: '#CE7777', alignItems: 'center'}]} onPress={()=>navigation.navigate("Profile")}>
+                <TouchableOpacity style={[styles.savebutton,{borderColor: '#CE7777', borderWidth: 1}]} onPress={()=>navigation.navigate("Profile")}>
                     <Text style={{color:'#CE7777', fontFamily: 'Nunito-Medium'}}>Cancel</Text>
                 </TouchableOpacity>
             </View>
@@ -113,19 +123,32 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     textBox: {
-        border: '#000',
         borderWidth: 1,
-        borderRadius: 10,
         paddingVertical: 10,
-        width: '80%',
         padding: 20,
         margin: 10,
-        borderColor: '#CE7777'
+        marginLeft: 0,
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
+        borderColor: '#CE7777',
+        flex: 4
+    },
+    label: {
+      borderColor: '#CE7777',
+      borderWidth: 0.5,
+      paddingVertical: 15,
+      paddingHorizontal: 5,
+      margin: 10,
+      marginRight: 0,
+      borderBottomLeftRadius: 10,
+      borderTopLeftRadius: 10,
+      flex: 2
     },
     savebutton: {
-        backgroundColor: '#CE7777', 
-        borderColor: '#CE7777',
         alignItems: 'center',
-        padding: 30
+        padding: 15,
+        width: '80%',
+        margin: 10,
+        borderRadius: 10,
     },
   });
