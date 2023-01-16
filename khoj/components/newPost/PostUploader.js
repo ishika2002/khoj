@@ -80,6 +80,7 @@ const PostUploader = (props) => {
     const newPost = () => {
         uploadImage().then((value) => {
           console.log("value: ",value);
+          const time = new Date();
           update(ref(database, 'users/' + uid + '/posts/' + newPostKey), {
             imageUrl: postImage,
             tag: tag,
@@ -88,6 +89,7 @@ const PostUploader = (props) => {
             description: description,
             location: location,
             comments: [],
+            timestamp: time
         }).then(()=> {
           update(ref(database, 'users/' + uid),{
               postCount: postCount+1
@@ -101,7 +103,8 @@ const PostUploader = (props) => {
               description: description,
               location: location,
               comments: [],
-              author: uid
+              author: uid,
+              timestamp: time
           })
         }).then(() => {
           update(ref(database, 'posts/' + newPostKey), {
@@ -112,7 +115,8 @@ const PostUploader = (props) => {
               description: description,
               location: location,
               comments: [],
-              author: uid
+              author: uid,
+              timestamp: time
           })
         });;
           props.navigateOption.navigate("Profile");

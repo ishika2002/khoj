@@ -56,7 +56,7 @@ export default function ProfilePage({navigation, route}){
             for(const item in data.posts){
                 var obj = data.posts[item];
                 obj["key"] = item;
-                allPosts.push(data.posts[item])
+                allPosts.unshift(data.posts[item])
                 setPosts([...posts,allPosts])
             }
 
@@ -75,7 +75,7 @@ export default function ProfilePage({navigation, route}){
             for(const item in allStarredPostsKeys){
                 var obj = data[allStarredPostsKeys[item]];
                 obj["key"] = allStarredPostsKeys[item];
-                allStarredPosts.push(obj)
+                allStarredPosts.unshift(obj)
                 setStarredPosts([...starredPosts,allStarredPosts])
             }
             // setStarredPosts(allStarredPosts)

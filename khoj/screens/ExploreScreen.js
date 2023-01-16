@@ -9,7 +9,7 @@ import BottomTab from '../components/explore/BottomTab';
 import FontContainer from '../components/FontContainer';
 import { auth, database } from "../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, onValue} from "firebase/database";
+import { getDatabase, ref, onValue, orderByChild} from "firebase/database";
 
 const ExploreScreen = ({navigation}) => {
 
@@ -52,7 +52,7 @@ const ExploreScreen = ({navigation}) => {
         for(const item in data){
             var obj = data[item];
             obj["key"] = item;
-            allPosts.push(data[item])
+            allPosts.unshift(data[item])
         }
         setPosts(allPosts)
     })
@@ -67,6 +67,7 @@ const ExploreScreen = ({navigation}) => {
         numColumns={1}
         data={posts}
         extraData={posts}
+        inverted={true}
         renderItem={({item}) => {
           return (
             <Post post={item} navigateOption={navigation}/>
