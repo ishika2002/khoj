@@ -100,11 +100,10 @@ const Post = ({post, navigateOption}) => {
 
       }, [uid])
 
-
   return (
     <View style={{marginBottom: 30}}>
         <Divider width={1} orientation='vertical' />
-        <PostHeader username={username} profileUrl={profileUrl}/>
+        <PostHeader username={username} profileUrl={profileUrl} navigateOption={navigateOption} authorUid={post.author}/>
         <PostImage post={post} />
         <View style={{marginHorizontal: 15, marginTop: 10}}>
             <PostFooter post={post} navigateOption={navigateOption} starPost={starPost} starred={starred} liked={liked} likedPost={likedPost}/>
@@ -116,14 +115,14 @@ const Post = ({post, navigateOption}) => {
   )
 }
 
-const PostHeader = ({username, profileUrl}) => (
-    <View style={styles.outer}>
-        <TouchableOpacity style={styles.inner}>
+const PostHeader = ({username, profileUrl,navigateOption,authorUid}) => {
+    return <View style={styles.outer}>
+        <TouchableOpacity style={styles.inner} onPress={() => navigateOption.navigate("Profile",{authorUid: authorUid})}>
             <Image source={profileUrl ? {uri: profileUrl} : null} style={styles.image}/>
             <Text style={[styles.username, {fontFamily:'Nunito-XBold'}]}>{username}</Text>
         </TouchableOpacity>
     </View>
-)
+}
 
 const PostImage = ({post}) => (
     <View style={styles.postImage}>

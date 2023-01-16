@@ -11,7 +11,8 @@ import { ref as REF, onValue as ONVALUE, getDownloadURL}  from "firebase/storage
 
 // const db = getDatabase();
 
-export default function ProfilePage({navigation}){
+export default function ProfilePage({navigation, route}){
+    const params = route.params;
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [profileUrl, setProfileUrl] = useState('');
@@ -20,12 +21,17 @@ export default function ProfilePage({navigation}){
     const [posts, setPosts] = useState([]);
     const [starredPosts, setStarredPosts] = useState([]);
     const [uid, setUid] = useState('');
+    const [userUid, setUserUid] = useState('');
 
     onAuthStateChanged(auth, (user) => {
         if(user){
-
-            setUid(user.uid)
-            const userDetails = ref(database, 'users/' + user.uid);
+            
+            if(typeof(params) !== "undefined" && typeof(params.authorUid) !== "undefined") {
+                setUid(params.authorUid)
+            }
+            else setUid(user.uid)
+            setUserUid(user.uid)
+            const userDetails = ref(database, 'users/' + uid);
             onValue(userDetails, (snapshot) => {
             const data = snapshot.val();
 
@@ -113,9 +119,11 @@ export default function ProfilePage({navigation}){
                         >{username}</Text>
                         <Text style={{padding: 10, color: '#1c315e', fontFamily: 'Nunito-Medium'}}>{name}</Text>
                     </View>
-                    <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("Edit")}>
-                        <Text style={{color: "#E8C4C4", fontFamily: 'Nunito-Medium'}}>Edit Profile</Text>
-                    </TouchableOpacity>
+                    {uid === userUid &&
+                        <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("Edit")}>
+                            <Text style={{color: "#E8C4C4", fontFamily: 'Nunito-Medium'}}>Edit Profile</Text>
+                        </TouchableOpacity>
+                    }
                     <View style={styles.briefDetails}>
                         <View style={{alignItems: 'center'}}>
                             <Text style={styles.number}>{postCount}</Text>
