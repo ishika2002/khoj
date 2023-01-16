@@ -38,7 +38,7 @@ const ExploreScreen = ({navigation}) => {
         for(const item in data){
             var obj = data[item];
             obj["key"] = item;
-            allPosts.push(data[item])
+            allPosts.unshift(data[item])
         }
         setPosts(allPosts)
     })
@@ -63,17 +63,20 @@ const ExploreScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <Header navigateOption={navigation}/>
       <Tags filterPosts={filterPosts}/>
-      {posts !== null && <FlatList
+      {posts !== null && (posts.length > 0 ? <FlatList
         numColumns={1}
         data={posts}
         extraData={posts}
-        inverted={true}
         renderItem={({item}) => {
           return (
             <Post post={item} navigateOption={navigation}/>
           )
-      }}
-      />}
+      }} 
+      /> : 
+      <View style={{flex:1, justifyContent: 'center', paddingBottom: 80}}>
+        <Text style={{textAlign: 'center', fontSize: 16, color: 'grey'}}>No Posts</Text>
+      </View>
+      )}
       <BottomTab navigateOption={navigation}/>
     </SafeAreaView>
     </FontContainer>
