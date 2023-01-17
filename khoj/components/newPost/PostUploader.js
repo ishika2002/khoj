@@ -59,30 +59,26 @@ const PostUploader = (props) => {
         const blob = await response.blob()
   
         const storageRef = REF(storage, 'postImages/'+newPostKey);
-  
-        uploadBytes(storageRef, blob).then((snapshot) => {
-          console.log('Uploaded a blob or file!');
-        }).then(() => {
-          getDownloadURL(storageRef).then((url) => {
-            setUploading(false)
-            setPostImage(url);
-            console.log("postImage: ",postImage)
-          })
-        });
         
-        // const profileImageDetails = REF(storage, 'profileImages/' + uid)
-        // image !== null && getDownloadURL(profileImageDetails).then((url) => {
-        //   image !== null && update(ref(database, 'users/'+uid), {profileUrl: url})
-        // })
+        const test = await uploadBytes(storageRef, blob).then(async (snapshot) => {
+          console.log('Uploaded a blob or file!');
+          const ans= await getDownloadURL(storageRef).then((url) => {
+            console.log("url= ",url)
+            setUploading(false)
+            
+            return url;
+          })
+          return ans;
+        });
+        return test
       }
     }
 
     const newPost = () => {
         uploadImage().then((value) => {
-          console.log("value: ",value);
           const time = new Date();
           update(ref(database, 'users/' + uid + '/posts/' + newPostKey), {
-            imageUrl: postImage,
+            imageUrl: value,
             tag: tag,
             likes: 0,
             heading: heading,
@@ -96,7 +92,7 @@ const PostUploader = (props) => {
           })
         }).then(() => {
           update(ref(database, tag + '/' + newPostKey), {
-              imageUrl: postImage,
+              imageUrl: value,
               tag: tag,
               likes: 0,
               heading: heading,
@@ -108,7 +104,7 @@ const PostUploader = (props) => {
           })
         }).then(() => {
           update(ref(database, 'posts/' + newPostKey), {
-              imageUrl: postImage,
+              imageUrl: value,
               tag: tag,
               likes: 0,
               heading: heading,
