@@ -63,13 +63,10 @@ export default function ProfilePage({navigation, route}){
             for(const item in data.starred){
                 allStarredPostsKeys.push(item)
             }
-
-            // console.log(allStarredPostsKeys)
         })
         const postDetails = ref(database, 'posts/');
         onValue(postDetails, (snapshot) => {
             const data = snapshot.val()
-            // console.log(data)
             const allStarredPosts = []
 
             for(const item in allStarredPostsKeys){

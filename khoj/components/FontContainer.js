@@ -13,7 +13,6 @@ export default function FontContainer({children}) {
       });
 
       if (!loaded) {
-        //console.log(require('../../assets/fonts/Nunito-Black.ttf'))
         return null;
       }
       

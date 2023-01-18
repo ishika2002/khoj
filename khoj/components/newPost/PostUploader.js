@@ -44,8 +44,6 @@ const PostUploader = (props) => {
         aspect: [4, 3],
         quality: 1,
       });
-  
-      console.log(result);
 
       setPostImage(result.assets[0].uri);
     };
@@ -54,7 +52,6 @@ const PostUploader = (props) => {
       setUploading(true);
   
       if(postImage !== null){
-        console.log("post image: ",postImage);
         const response = await fetch(postImage)
         const blob = await response.blob()
   
@@ -63,7 +60,6 @@ const PostUploader = (props) => {
         const test = await uploadBytes(storageRef, blob).then(async (snapshot) => {
           console.log('Uploaded a blob or file!');
           const ans= await getDownloadURL(storageRef).then((url) => {
-            console.log("url= ",url)
             setUploading(false)
             
             return url;
@@ -114,7 +110,7 @@ const PostUploader = (props) => {
               author: uid,
               timestamp: time
           })
-        });;
+        });
           props.navigateOption.navigate("Profile");
         })
       }

@@ -9,7 +9,6 @@ export default function Layout({children}) {
       });
 
       if (!loaded) {
-        //console.log(require('../../assets/fonts/Nunito-Black.ttf'))
         return null;
       }
       

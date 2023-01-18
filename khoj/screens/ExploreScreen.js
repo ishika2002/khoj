@@ -19,12 +19,6 @@ const ExploreScreen = ({navigation}) => {
   onAuthStateChanged(auth, (user) => {
     if(user){
       setUid(user.uid);
-    //   const postDetails = ref(database, 'posts');
-    //   onValue(postDetails, (snapshot) => {
-    //     const data = snapshot.val();
-    //     console.log(data)
-    //     setPosts([...posts,data])
-    // })
     }else{
       console.log("signed out")
     }

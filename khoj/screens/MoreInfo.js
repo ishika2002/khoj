@@ -17,7 +17,7 @@ const MoreInfo = ({navigation, route}) => {
     const [tag, setTag] = useState('');
     const [likes, setLikes] = useState('');
     const [uid, setUid] = useState('');
-    const [comments, setComments] = useState('');
+    // const [comments, setComments] = useState('');
 
     onAuthStateChanged(auth, (user) => {
         if(user){
@@ -25,7 +25,6 @@ const MoreInfo = ({navigation, route}) => {
             const postDetails = ref(database, 'posts/' + postId);
             onValue(postDetails, (snapshot) => {
             const data = snapshot.val();
-            console.log(data)
             setHeading(data.heading)
             setDescription(data.description);
             setLocation(data.location);
@@ -33,9 +32,6 @@ const MoreInfo = ({navigation, route}) => {
             setTag(data.tag);
             setLikes(data.likes);
             setUid(data.uid);
-            setComments(data.comments);
-
-            console.log(heading+" "+description)
             });
         }else{
         console.log("signed out")
@@ -60,7 +56,7 @@ const MoreInfo = ({navigation, route}) => {
                             </TouchableOpacity>
                         </View>
                         <View style={{flex:1, alignItems:'flex-end'}}>
-                            <TouchableOpacity onPress={() => navigation.navigate("Commment Section")}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Commment Section", {postId:postId, postTag:tag})}>
                                 <Image style={styles.footerIcon} source={require('../assets/commentWhite.png')} />
                             </TouchableOpacity>
                         </View>

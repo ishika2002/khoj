@@ -134,26 +134,28 @@ const PostImage = ({post}) => (
     </View>
 )
 
-const PostFooter = ({post, navigateOption, starPost, starred, liked, likedPost}) => (
-    <View style={{flexDirection:'row', height:25, justifyContent:'space-between'}}>
-        <View>
-            <TouchableOpacity style={styles.tag}>
-                <Text style={styles.name}>{post.tag}</Text>
-            </TouchableOpacity>
+const PostFooter = ({post, navigateOption, starPost, starred, liked, likedPost}) => {
+    return (
+        <View style={{flexDirection:'row', height:25, justifyContent:'space-between'}}>
+            <View>
+                <TouchableOpacity style={styles.tag}>
+                    <Text style={styles.name}>{post.tag}</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.footerIconContainer}>
+                <TouchableOpacity onPress={() => likedPost()}>
+                    <Image style={styles.footerIcon} source={!liked ? postFooterIcons[0].imageUrl : postFooterIcons[0].likedImageUrl} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigateOption.navigate("Commment Section", {postId:post.key, postTag:post.tag})}>
+                    <Image style={styles.footerIcon} source={postFooterIcons[1].imageUrl} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => starPost()}>
+                    <Image style={styles.footerIcon} source={!starred ? postFooterIcons[2].imageUrl : postFooterIcons[2].savedImageUrl} />
+                </TouchableOpacity>
+            </View>
         </View>
-        <View style={styles.footerIconContainer}>
-            <TouchableOpacity onPress={() => likedPost()}>
-                <Image style={styles.footerIcon} source={!liked ? postFooterIcons[0].imageUrl : postFooterIcons[0].likedImageUrl} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigateOption.navigate("Commment Section")}>
-                <Image style={styles.footerIcon} source={postFooterIcons[1].imageUrl} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => starPost()}>
-                <Image style={styles.footerIcon} source={!starred ? postFooterIcons[2].imageUrl : postFooterIcons[2].savedImageUrl} />
-            </TouchableOpacity>
-        </View>
-    </View>
-)
+    )
+}
 
 const Likes =({post}) => (
     <View style={{flexDirection:'row', marginTop: 10, justifyContent:'flex-start', marginLeft: 4}}>
