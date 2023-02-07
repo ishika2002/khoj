@@ -11,6 +11,7 @@ import LoginPage from './components/Authentication/LoginPage';
 import SignupPage from './components/Authentication/SignupPage';
 import ProfilePage from './components/Profile/ProfilePage';
 import EditPage from './components/Profile/EditPage';
+import Footer from './components/Footer';
 // import {app} from './firebase'
 // import { initializeApp } from "firebase/app";
 
@@ -61,6 +62,10 @@ export default function App() {
         <Stack.Screen
           name="Commment Section"
           component={CommentSection}
+        />
+        <Stack.Screen
+          name="Footer"
+          component={Footer}
         />
       </Stack.Navigator>
     </NavigationContainer>

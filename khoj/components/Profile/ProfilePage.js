@@ -1,4 +1,3 @@
-import { NavigationContainer, TabActions } from "@react-navigation/native"
 import {Text, View, Image, StyleSheet, Dimensions, ScrollView, FlatList, TouchableOpacity} from "react-native"
 import Layout from "../Layout"
 import { useState, useEffect } from "react"
@@ -6,8 +5,9 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import ProfileImage from "./ProfileImage"
 import { auth, database, storage } from "../../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, onValue, update} from "firebase/database";
-import { ref as REF, onValue as ONVALUE, getDownloadURL}  from "firebase/storage";
+import { ref, onValue} from "firebase/database";
+import Footer from "../Footer"
+// import { ref as REF, onValue as ONVALUE, getDownloadURL}  from "firebase/storage";
 
 // const db = getDatabase();
 
@@ -101,7 +101,8 @@ export default function ProfilePage({navigation, route}){
     const [visible, setVisible] = useState(0);
     return (
         <Layout>
-            <ScrollView width="100%" height="100%" nestedScrollEnabled={true}>
+            <View width='100%' height='100%'>
+            <ScrollView width="100%" nestedScrollEnabled={true}>
                 <View height={60} style={{justifyContent: 'center', marginHorizontal: 10, flexDirection: 'row', alignItems: 'center'}}>
                     <TouchableOpacity style={{position: 'absolute', left: 10}} onPress={() => navigation.navigate("Explore")}>
                         <Icon name="left" size={20} color="#1c315e"/>
@@ -208,6 +209,8 @@ export default function ProfilePage({navigation, route}){
         
                 </ScrollView>
             </ScrollView>
+            <Footer active='profile' uid={uid} navigateOption={navigation}/>
+            </View>
         </Layout>
     )
 }
