@@ -66,7 +66,7 @@ const CommentSection = ({navigation, route}) => {
                 extraData={allComments}
                 renderItem={({item}) => {
                     return (
-                        <Comments commentData={item}/>
+                        <Comments commentData={item} navigateOption={navigation}/>
                     )
                 }}
                 /> : <View style={{flex:1, justifyContent: 'center', paddingBottom: 80}}>
@@ -103,7 +103,7 @@ const Header = ({navigateOption}) => (
     </View>
 )
 
-const Comments = ({commentData}) => {
+const Comments = ({commentData, navigateOption}) => {
         const [profileUrl, setProfileUrl] = useState('');
         const [username, setUsername] = useState('');
 
@@ -123,9 +123,11 @@ const Comments = ({commentData}) => {
                 <Image source={{uri: profileUrl}} style={{margin:10, width: 50, height: 50, backgroundColor:'white', borderRadius:50}}/>
             </View>
             <View style={{marginTop:5, marginLeft:10, }}>
-                <Text style={{color:'#2B3A55', marginBottom:10, marginTop:5, fontSize:15}}>
-                    <Text style={{fontFamily:'Nunito-XBold'}}>{username}</Text>
-                </Text>
+                <TouchableOpacity onPress={() => navigateOption.navigate("Profile",{authorUid: commentData.author})}>
+                    <Text style={{color:'#2B3A55', marginBottom:10, marginTop:5, fontSize:15}}>
+                        <Text style={{fontFamily:'Nunito-XBold'}}>{username}</Text>
+                    </Text>
+                </TouchableOpacity>
                 <Text style={{color:'#2B3A55', marginBottom:15, fontSize:12, fontFamily:'Nunito-Medium'}}>{commentData.comment}</Text>
             </View>
         </View>

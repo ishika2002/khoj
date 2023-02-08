@@ -10,6 +10,7 @@ import FontContainer from '../components/FontContainer';
 import { auth, database } from "../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, onValue, orderByChild} from "firebase/database";
+import Footer from '../components/Footer';
 
 const ExploreScreen = ({navigation}) => {
 
@@ -71,7 +72,8 @@ const ExploreScreen = ({navigation}) => {
         <Text style={{textAlign: 'center', fontSize: 16, color: 'grey'}}>No Posts</Text>
       </View>
       )}
-      <BottomTab navigateOption={navigation}/>
+      {/* <BottomTab navigateOption={navigation}/> */}
+      <Footer active='home' uid={uid} navigateOption={navigation}/>
     </SafeAreaView>
     </FontContainer>
   )
