@@ -30,6 +30,7 @@ const Post = ({post, navigateOption}) => {
     const [starred, setStarred] = useState(false);
     const [liked, setLiked] = useState(false);
     const [postLikes, setPostLikes] = useState(0);
+    const [allComments, setAllComments] = useState([]);
 
     onAuthStateChanged(auth, (user) => {
         if(user){
@@ -98,6 +99,16 @@ const Post = ({post, navigateOption}) => {
             }
         })
 
+        const commentDetails = ref(database, 'posts/'+post.key+'/comments');
+        onValue(commentDetails, (snapshot) => {
+          const data=snapshot.val();
+          const allComments = []
+          for(const item in data){
+              allComments.unshift(data[item])
+          }
+          setAllComments(allComments)
+        })
+
       }, [uid])
 
   return (
@@ -107,7 +118,10 @@ const Post = ({post, navigateOption}) => {
         <PostImage post={post} />
         <View style={{marginHorizontal: 15, marginTop: 10}}>
             <PostFooter post={post} navigateOption={navigateOption} starPost={starPost} starred={starred} liked={liked} likedPost={likedPost}/>
-            <Likes post={post} />
+            <View style={{flexDirection:'row', height:25, justifyContent:'space-between'}}>
+                <Likes post={post} />
+                {allComments.length!==0 && <Comments commentCount={allComments.length} post={post} navigateOption={navigateOption}/>}
+            </View>
             <Heading post={post} />
             <MoreInfo  post={post} navigateOption={navigateOption}/>
         </View>
@@ -160,6 +174,14 @@ const PostFooter = ({post, navigateOption, starPost, starred, liked, likedPost})
 const Likes =({post}) => (
     <View style={{flexDirection:'row', marginTop: 10, justifyContent:'flex-start', marginLeft: 4}}>
         <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'#003585'}}>{post.likes} likes</Text>
+    </View>
+)
+
+const Comments =({commentCount, post, navigateOption}) => (
+    <View style={{flexDirection:'row', marginTop: 10, justifyContent:'flex-end', marginLeft: 4}}>
+        <TouchableOpacity onPress={() => navigateOption.navigate("Commment Section", {postId:post.key, postTag:post.tag})}>
+            {commentCount==1 ? <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'#003585'}}>{commentCount} comment</Text> : <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'#003585'}}>{commentCount} comments</Text>}
+        </TouchableOpacity>
     </View>
 )
 

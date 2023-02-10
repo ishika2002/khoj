@@ -60,7 +60,7 @@ const CommentSection = ({navigation, route}) => {
         <FontContainer>
         <SafeAreaView style={{backgroundColor:'#FFFFFF', flex: 1}}>
             <View style={styles.container}>
-                <Header navigateOption={navigation}/>
+                <Header navigateOption={navigation} commentCount={allComments.length}/>
                 {allComments.length!==0 ? <FlatList
                 numColumns={1}
                 data={allComments}
@@ -94,13 +94,13 @@ const CommentSection = ({navigation, route}) => {
       )
 }
 
-const Header = ({navigateOption}) => (
+const Header = ({navigateOption, commentCount}) => (
     <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigateOption.navigate("Explore")}>
             {/* <Image source={require('../assets/backBlue.png')} style={{width: 20, height: 20}}/> */}
             <Icon name="left" size={20} color="#003585"/>
         </TouchableOpacity>
-        <Text style={styles.headerText}>COMMENTS</Text>
+        <Text style={styles.headerText}>COMMENTS ({commentCount})</Text>
         <Text></Text>
     </View>
 )
