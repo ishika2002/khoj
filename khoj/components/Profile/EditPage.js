@@ -84,26 +84,26 @@ export default function EditPage({navigation}) {
                 <View style={{opacity: 0.6, alignItems: 'center'}}>
                     <ProfileImage source={image ? image : profileImageDefault}/>
                     <TouchableOpacity onPress={pickImage}>
-                        <Text style={{textDecorationLine: 'underline', padding: 10, fontFamily: 'Nunito-Medium'}}>Change Profile Photo</Text>
+                        <Text style={{textDecorationLine: 'underline', padding: 10, fontFamily: 'Nunito-Medium', color:'#149DE1'}}>Change Profile Photo</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center', width: '85%'}}>
-                  <View style={[styles.label,{backgroundColor: '#CE7777'}]}>
-                    <Text style={{color: '#fff', textAlign: 'center'}}>Name</Text>
+                  <View style={[styles.label,{backgroundColor: '#FEBA02'}]}>
+                    <Text style={{color: '#FFFFFF', textAlign: 'center'}}>Name</Text>
                   </View>
                   <TextInput maxLength={20} style={[styles.textBox]} placeholder={oldName} onChangeText={(name) => setName(name)}/>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center', width: '85%'}}>
-                  <View style={[styles.label,{backgroundColor: '#CE7777'}]}>
-                    <Text style={{color: '#fff', textAlign: 'center'}}>Username</Text>
+                  <View style={[styles.label,{backgroundColor: '#FEBA02'}]}>
+                    <Text style={{color: '#FFFFFF', textAlign: 'center'}}>Username</Text>
                   </View>
                   <TextInput maxLength={20} style={styles.textBox} placeholder={oldUsername} onChangeText={(username) => setUsername(username)}/>
                 </View>
-                <TouchableOpacity style={[styles.savebutton,{backgroundColor: '#CE7777'}]} onPress={saveChanges}>
-                    <Text style={{color:'#F2E5E5', fontFamily: 'Nunito-Medium'}}>Save Changes</Text>
+                <TouchableOpacity style={[styles.savebutton,{backgroundColor: '#003585'}]} onPress={saveChanges}>
+                    <Text style={{color:'#FFFFFF', fontFamily: 'Nunito-Medium'}}>Save Changes</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.savebutton,{borderColor: '#CE7777', borderWidth: 1}]} onPress={()=>navigation.navigate("Profile")}>
-                    <Text style={{color:'#CE7777', fontFamily: 'Nunito-Medium'}}>Cancel</Text>
+                <TouchableOpacity style={[styles.savebutton,{borderColor: '#003585', borderWidth: 1}]} onPress={()=>navigation.navigate("Profile")}>
+                    <Text style={{color:'#003585', fontFamily: 'Nunito-Medium'}}>Cancel</Text>
                 </TouchableOpacity>
             </View>
         </Layout>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         fontFamily: 'NunitoBlack',
-        color: '#1c315e',
+        color: '#003585',
         padding: 20
     },
     editBox: {
@@ -130,13 +130,14 @@ const styles = StyleSheet.create({
         marginLeft: 0,
         borderBottomRightRadius: 10,
         borderTopRightRadius: 10,
-        borderColor: '#CE7777',
+        borderColor: '#FEBA02',
+        backgroundColor:'#FFF4E0',
         flex: 4
     },
     label: {
-      borderColor: '#CE7777',
+      borderColor: '#FEBA02',
       borderWidth: 0.5,
-      paddingVertical: 15,
+      paddingVertical: 14,
       paddingHorizontal: 5,
       margin: 10,
       marginRight: 0,

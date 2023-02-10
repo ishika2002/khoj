@@ -6,6 +6,7 @@ import FontContainer from '../components/FontContainer';
 import { auth, database } from "../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, onValue} from "firebase/database";
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const MoreInfo = ({navigation, route}) => {
     const {postId} = route.params;
@@ -40,12 +41,12 @@ const MoreInfo = ({navigation, route}) => {
 
   return (
     <FontContainer>
-    <SafeAreaView style={{backgroundColor:'#2B3A55', flex: 1}}>
+    <SafeAreaView style={{backgroundColor:'#FFFFFF', flex: 1}}>
         <ScrollView>
             <View style={styles.container}>
                 <Header navigateOption={navigation}/>
                 <View style={styles.outer}>
-                    <Image source={{uri: imageUrl}} style={{width: 350, height: 350}}/>
+                    <Image source={{uri: imageUrl}} style={{width: 320, height: 320}}/>
                     <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around', margin:10}}>
                         <View style={{flex:1}}>
                             <Likes likes={likes} />
@@ -57,14 +58,14 @@ const MoreInfo = ({navigation, route}) => {
                         </View>
                         <View style={{flex:1, alignItems:'flex-end'}}>
                             <TouchableOpacity onPress={() => navigation.navigate("Commment Section", {postId:postId, postTag:tag})}>
-                                <Image style={styles.footerIcon} source={require('../assets/commentWhite.png')} />
+                                <Image style={styles.footerIcon} source={require('../assets/commentN.png')} />
                             </TouchableOpacity>
                         </View>
                     </View>
                     <Heading heading={heading}/>
                     <Divider width={1} orientation='vertical' />
                     <View style={{flexDirection:'row', marginTop:20, marginBottom:10}}>
-                        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'white'}}>Location: </Text>
+                        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'#149DE1'}}>Location: </Text>
                         <Location location={location}/>
                     </View>
                     <Description description={description}/>
@@ -79,7 +80,8 @@ const MoreInfo = ({navigation, route}) => {
 const Header = ({navigateOption}) => (
     <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigateOption.navigate("Explore")}>
-            <Image source={require('../assets/back.png')} style={{width: 20, height: 20}}/>
+            {/* <Image source={require('../assets/back.png')} style={{width: 20, height: 20}}/> */}
+            <Icon name="left" size={20} color="#003585"/>
         </TouchableOpacity>
         <Text style={styles.headerText}>MORE INFO</Text>
         <Text></Text>
@@ -106,7 +108,7 @@ const Location =({location}) => (
 
 const Likes =({likes}) => (
     <View style={{flexDirection:'row', justifyContent:'flex-start', marginLeft: 4}}>
-        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'white'}}>{likes} likes</Text>
+        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'#003585'}}>{likes} likes</Text>
     </View>
 )
 
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
       marginLeft:10,
     },
     headerText:{
-       color:'white',
+       color:'#003585',
        fontSize:20,
        marginRight: 15,
        fontFamily:'NunitoBlack',
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     heading:{
         fontFamily:'Nunito-XBold',
         fontSize: 20,
-        color:'white',
+        color:'#003585',
         marginTop:20,
         marginBottom:20,
         textAlign:'center',
@@ -144,15 +146,15 @@ const styles = StyleSheet.create({
     description:{
         fontFamily:'Nunito-Light',
         fontSize: 13,
-        color:'white',
+        color:'#003585',
     },
     location:{
         fontFamily:'Nunito-Light',
         fontSize: 13,
-        color:'white',
+        color:'#149DE1',
     },
     tag:{
-        backgroundColor:'#CE7777',
+        backgroundColor:'#FEBA02',
         paddingBottom:5,
         paddingTop:5,
         paddingLeft:10,
@@ -161,14 +163,14 @@ const styles = StyleSheet.create({
         height:30,
     },
     name:{
-        color:'white',
+        color:'#003585',
         fontSize:13,
         // fontWeight:'500',
         fontFamily:'Nunito-Bold',
     },
     footerIcon:{
-        width:25,
-        height:25,
+        width:22,
+        height:22,
     },
   });
 

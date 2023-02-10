@@ -82,7 +82,7 @@ const ExploreScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container:{
       flex:1,
-      backgroundColor: '#F2E5E5',
+      backgroundColor: '#FFFFFF',
   },
 });
 

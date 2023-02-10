@@ -8,16 +8,16 @@ import { getDatabase, ref, child, push, update, onValue, set, remove } from "fir
 const postFooterIcons = [
     {
         name:'Like',
-        imageUrl:require('../../assets/heart.png'),
+        imageUrl:require('../../assets/heartN.png'),
         likedImageUrl:require('../../assets/filledHeart.png'),
     },
     {
         name:'Comment',
-        imageUrl:require('../../assets/comment.png'),
+        imageUrl:require('../../assets/commentN.png'),
     },
     {
         name:'Save',
-        imageUrl:require('../../assets/star.png'),
+        imageUrl:require('../../assets/starN.png'),
         savedImageUrl:require('../../assets/filledStar.png'),
     },
 ]
@@ -147,10 +147,10 @@ const PostFooter = ({post, navigateOption, starPost, starred, liked, likedPost})
                     <Image style={styles.footerIcon} source={!liked ? postFooterIcons[0].imageUrl : postFooterIcons[0].likedImageUrl} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigateOption.navigate("Commment Section", {postId:post.key, postTag:post.tag})}>
-                    <Image style={styles.footerIcon} source={postFooterIcons[1].imageUrl} />
+                    <Image style={{height: 22, width: 22}} source={postFooterIcons[1].imageUrl} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => starPost()}>
-                    <Image style={styles.footerIcon} source={!starred ? postFooterIcons[2].imageUrl : postFooterIcons[2].savedImageUrl} />
+                    <Image style={{height: 23.5, width: 23.5}} source={!starred ? postFooterIcons[2].imageUrl : postFooterIcons[2].savedImageUrl} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -159,7 +159,7 @@ const PostFooter = ({post, navigateOption, starPost, starred, liked, likedPost})
 
 const Likes =({post}) => (
     <View style={{flexDirection:'row', marginTop: 10, justifyContent:'flex-start', marginLeft: 4}}>
-        <Text style={{fontFamily:'Nunito-Bold', fontSize:13}}>{post.likes} likes</Text>
+        <Text style={{fontFamily:'Nunito-Bold', fontSize:13, color:'#003585'}}>{post.likes} likes</Text>
     </View>
 )
 
@@ -196,10 +196,10 @@ const styles = StyleSheet.create({
         borderRadius:50,
         marginLeft:6,
         borderWidth:1.6,
-        borderColor:'#E8C4C4',
+        borderColor:'#003585',
     },
     username:{
-        color:'#2B3A55',
+        color:'#003585',
         marginLeft: 5,
     },
     postImage:{
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
     },
     tag:{
-        backgroundColor:'#2B3A55',
+        backgroundColor:'#FEBA02',
         paddingBottom:5,
         paddingTop:5,
         paddingLeft:10,
@@ -225,14 +225,14 @@ const styles = StyleSheet.create({
         height:30,
     },
     name:{
-        color:'white',
+        color:'#003585',
         fontSize:13,
         // fontWeight:'500',
         fontFamily:'Nunito-Bold',
     },
     heading:{
-        marginLeft: 4,
-        // fontWeight: '600',
+        marginLeft: 3,
+        color:'#003585',
         fontSize: 18,
         fontFamily:'Nunito-XBold',
     },

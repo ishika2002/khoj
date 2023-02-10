@@ -10,15 +10,15 @@ const DropdownComponent = ({setTag}) => {
   return (
     <View style={styles.container}>
       <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: 'white' }]}
+        style={[styles.dropdown, isFocus && { borderColor: '#FEBA02' }]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        containerStyle={{backgroundColor:'#2B3A55', fontFamily:'Nunito-Medium'}}
-        itemContainerStyle={{margin:3, height:55, fontFamily:'Nunito-Medium'}}
-        itemTextStyle={{color:'white', fontSize:14, fontFamily:'Nunito-Medium'}}
-        activeColor='#475b80'
+        containerStyle={{backgroundColor:'#FFF4E0', fontFamily:'Nunito-Medium', borderRadius: 8}}
+        itemContainerStyle={{margin:3, height:55, fontFamily:'Nunito-Medium', borderRadius: 8}}
+        itemTextStyle={{color:'#003585', fontSize:14, fontFamily:'Nunito-Medium'}}
+        activeColor='#FEBA02'
         data={TAGS.slice(1)}
         search
         maxHeight={300}
@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: '#FEBA02',
+    backgroundColor: '#FFF4E0',
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   },
   label: {
     position: 'absolute',
-    backgroundColor:'#2B3A55',
+    backgroundColor:'#FEBA02',
     left: 22,
     top: 8,
     zIndex: 999,
@@ -66,12 +67,12 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 14,
-    color:'gray',
+    color:'#5d7ba8',
     fontFamily:'Nunito-Medium',
   },
   selectedTextStyle: {
     fontSize: 14,
-    color:'white',
+    color:'#003585',
     marginLeft:5,
     fontFamily:'Nunito-Medium',
   },
@@ -82,7 +83,9 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 14,
-    color:'white',
+    color:'#003585',
     fontFamily:'Nunito-Medium',
+    borderColor: '#FEBA02',
+    borderRadius: 8,
   },
 });

@@ -12,13 +12,13 @@ export default function Header(props){
 const styles = StyleSheet.create({
     heading: {
         fontSize: 50,
-        color: '#1c315e',
+        color: '#003585',
         textAlign: 'center',
         fontFamily: 'NunitoBlack'
     },
     subheading: {
         fontSize: 20,
-        color: '#c15454',
+        color: '#149DE1',
         textAlign: 'center',
     },
 })

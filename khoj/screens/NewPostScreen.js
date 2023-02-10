@@ -18,7 +18,7 @@ const NewPostScreen = ({navigation}) => {
 
   return (
     <FontContainer>
-    <SafeAreaView style={{backgroundColor:'#2B3A55', flex: 1}}>
+    <SafeAreaView style={{backgroundColor:'#FFFFFF', flex: 1}}>
       <AddNewPost navigateOption={navigation}/>
     </SafeAreaView>
     </FontContainer>

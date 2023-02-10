@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 // import FormikPostUploader from './FormikPostUploader';
 import PostUploader from './PostUploader';
+import Icon from 'react-native-vector-icons/AntDesign'
 
 const AddNewPost = (props) => {
   return (
@@ -16,7 +17,8 @@ const AddNewPost = (props) => {
 const Header = (props) => (
     <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => props.navigateOption.navigate("Explore")}>
-            <Image source={require('../../assets/back.png')} style={{width: 20, height: 20}}/>
+            {/* <Image source={require('../../assets/back.png')} style={{width: 20, height: 20}}/> */}
+            <Icon name="left" size={20} color="#003585"/>
         </TouchableOpacity>
         <Text style={styles.headerText}>NEW POST</Text>
         <Text></Text>
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerText:{
-     color:'white',
+     color:'#003585',
     //  fontWeight:'700',
      fontSize:20,
      marginRight: 15,

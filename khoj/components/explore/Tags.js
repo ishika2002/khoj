@@ -21,7 +21,7 @@ const Tags = ({filterPosts}) => {
 
 const styles = StyleSheet.create({
     tag:{
-        backgroundColor:'#2B3A55',
+        backgroundColor:'#003585',
         paddingBottom:5,
         paddingTop:5,
         paddingLeft:10,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         borderRadius:10,
     },
     name:{
-        color:'white',
+        color:'#FFF4E0',
         fontFamily:'Nunito-Bold',
     },
   });

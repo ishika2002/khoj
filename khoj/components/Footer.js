@@ -10,20 +10,20 @@ function Footer({active, uid, navigateOption}) {
             flexDirection:'row',
             justifyContent: 'space-around',
             alignItems: 'center',
-            backgroundColor: '#FFF4E0',
+            backgroundColor: '#003585',
             paddingVertical:10,
         },
         homeIcon: {
-            color: active !== 'home' ? '#898989' : '#003585'
+            color: active !== 'home' ? '#5d7ba8' : '#FFF4E0'
         },
         exploreIcon: {
-            color: active !== 'explore' ? '#898989' : '#003585'
+            color: active !== 'explore' ? '#5d7ba8' : '#FFF4E0'
         },
         profileIcon: {
-            color: active !== 'profile' ? '#898989' : '#003585'
+            color: active !== 'profile' ? '#5d7ba8' : '#FFF4E0'
         },
         settingIcon: {
-            color: active !== 'setting' ? '#898989' : '#003585'
+            color: active !== 'setting' ? '#5d7ba8' : '#FFF4E0'
         },
         font: {
             fontSize: 11,

@@ -7,6 +7,7 @@ import FontContainer from '../components/FontContainer';
 import { auth, database } from "../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDatabase, ref, child, push, update, onValue, set, remove } from "firebase/database";
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const CommentSection = ({navigation, route}) => {
 
@@ -57,7 +58,7 @@ const CommentSection = ({navigation, route}) => {
 
     return (
         <FontContainer>
-        <SafeAreaView style={{backgroundColor:'#F2E5E5', flex: 1}}>
+        <SafeAreaView style={{backgroundColor:'#FFFFFF', flex: 1}}>
             <View style={styles.container}>
                 <Header navigateOption={navigation}/>
                 {allComments.length!==0 ? <FlatList
@@ -73,7 +74,7 @@ const CommentSection = ({navigation, route}) => {
                 <Text style={{textAlign: 'center', fontSize: 16, color: 'grey'}}>No Comments</Text>
               </View>}
             </View>
-            <View style={{justifyContent:'flex-end', backgroundColor:'#2B3A55'}}>
+            <View style={{justifyContent:'flex-end', backgroundColor:'#003585'}}>
                 <View style={{marginLeft:20, marginRight:20, marginBottom:15, marginTop:15, justifyContent:'space-between', alignItems:'center', flexDirection:'row'}}>
                     <TextInput 
                         style={{color: 'white', width:'85%', fontFamily:'Nunito-Medium'}}
@@ -85,7 +86,7 @@ const CommentSection = ({navigation, route}) => {
                         // onBlur={handleBlur('heading')}
                         value={comment}
                     />
-                    <TouchableOpacity onPress={pushComment}><Text style={{color:'#E8C4C4', fontFamily:'Nunito-Bold'}}>Post</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={pushComment}><Text style={{color:'#FFF4E0', fontFamily:'Nunito-Bold'}}>Post</Text></TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
@@ -96,7 +97,8 @@ const CommentSection = ({navigation, route}) => {
 const Header = ({navigateOption}) => (
     <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigateOption.navigate("Explore")}>
-            <Image source={require('../assets/backBlue.png')} style={{width: 20, height: 20}}/>
+            {/* <Image source={require('../assets/backBlue.png')} style={{width: 20, height: 20}}/> */}
+            <Icon name="left" size={20} color="#003585"/>
         </TouchableOpacity>
         <Text style={styles.headerText}>COMMENTS</Text>
         <Text></Text>
@@ -125,10 +127,10 @@ const Comments = ({commentData, navigateOption}) => {
             <View style={{marginTop:5, marginLeft:10, }}>
                 <TouchableOpacity onPress={() => navigateOption.navigate("Profile",{authorUid: commentData.author})}>
                     <Text style={{color:'#2B3A55', marginBottom:10, marginTop:5, fontSize:15}}>
-                        <Text style={{fontFamily:'Nunito-XBold'}}>{username}</Text>
+                        <Text style={{fontFamily:'Nunito-XBold', color:'#003585'}}>{username}</Text>
                     </Text>
                 </TouchableOpacity>
-                <Text style={{color:'#2B3A55', marginBottom:15, fontSize:12, fontFamily:'Nunito-Medium'}}>{commentData.comment}</Text>
+                <Text style={{color:'#003585', marginBottom:15, fontSize:12, fontFamily:'Nunito-Medium'}}>{commentData.comment}</Text>
             </View>
         </View>
         <Divider width={1} orientation='vertical'/>
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
       marginLeft:10,
     },
     headerText:{
-       color:'#2B3A55',
+       color:'#003585',
     //    fontWeight:'700',
        fontSize:20,
        marginRight: 15,

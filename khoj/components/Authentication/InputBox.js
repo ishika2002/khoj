@@ -9,10 +9,11 @@ export default function AuthButton({children}){
 const styles = StyleSheet.create({
     inputbox: {
         margin: 10,
-        borderColor: '#c15454',
+        borderColor: '#FEBA02',
         borderWidth: 1,
         padding: 10,
         paddingHorizontal: 20,
-        borderRadius: 25
+        borderRadius: 25,
+        backgroundColor: '#FFF4E0'
     },
 })

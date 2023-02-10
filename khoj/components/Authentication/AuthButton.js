@@ -10,15 +10,15 @@ export default function AuthButton(props){
 
 const styles = StyleSheet.create({
     authbutton: {
-        backgroundColor: '#ce7777',
-        borderColor: '#c15454',
+        backgroundColor: '#003585',
+        borderColor: '#003585',
         margin: 10,
         padding: 15,
         paddingHorizontal: 20,
         borderRadius: 25,
     },
     buttonContent: {
-        color: '#f2e5e5',
+        color: '#FFFFFF',
         textAlign: 'center',
         fontWeight: '500',
         fontSize: 16

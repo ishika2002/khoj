@@ -1,5 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
+import Icon from 'react-native-vector-icons/AntDesign';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const Header = (props) => {
   return (
@@ -9,9 +11,9 @@ const Header = (props) => {
 
           </View>
           <View style={styles.header2}>
-            <Image style={styles.logo} source={require('../../assets/logo.png')}/>
-            <TouchableOpacity onPress={() => props.navigateOption.navigate("Profile")}>
-              <Image style={styles.profile} source={require('../../assets/profile.png')}/>
+            <Image style={styles.logo} source={require('../../assets/NewLogo.png')}/>
+            <TouchableOpacity onPress={() => props.navigateOption.navigate("Add Post")}>
+              <FontAwesomeIcon name='plus-square-o' size={28} style={styles.profile}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
       width:'100%',
       height:60,
       flexDirection: 'row',
-      backgroundColor: '#F2E5E5',
+      backgroundColor: '#FFFFFF',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.8,
@@ -47,8 +49,8 @@ const styles = StyleSheet.create({
       paddingLeft:'25%',
   },
   profile:{
-      width:60,
-      height:30,
+      paddingRight:'8%',
+      color:'#003585',
   },
 });
 

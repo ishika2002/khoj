@@ -124,9 +124,9 @@ const PostUploader = (props) => {
                 </TouchableOpacity>
                 <View style={styles.inner}>
                     <TextInput 
-                    style={{color: 'white', fontSize: 20, marginBottom:10, fontFamily:'Nunito-Medium'}}
+                    style={{color: '#003585', fontSize: 20, marginBottom:10, fontFamily:'Nunito-Medium'}}
                     placeholder='Write a heading' 
-                    placeholderTextColor='gray'
+                    placeholderTextColor='#5d7ba8'
                     multiline={true}
                     maxLength={100}
                     onChangeText={(heading) => setHeading(heading)}
@@ -135,9 +135,9 @@ const PostUploader = (props) => {
                     <Divider width={1} orientation='vertical' />
 
                     <TextInput 
-                    style={{color: 'white', marginTop:5, fontFamily:'Nunito-Medium'}}
+                    style={{color: '#003585', marginTop:5, fontFamily:'Nunito-Medium'}}
                     placeholder='Add location' 
-                    placeholderTextColor='gray'
+                    placeholderTextColor='#5d7ba8'
                     multiline={true}
                     maxLength={1100}
                     onChangeText={(location) => setLocation(location)}
@@ -153,7 +153,7 @@ const PostUploader = (props) => {
                     <TextInput 
                     style={styles.lowerFields}
                     placeholder='Add the description...' 
-                    placeholderTextColor='gray'
+                    placeholderTextColor='#5d7ba8'
                     multiline={true}
                     maxLength={1200}
                     numberOfLines={35}
@@ -163,7 +163,7 @@ const PostUploader = (props) => {
             </View>
     </ScrollView>
     <View style={styles.buttonOuter}>
-        <TouchableOpacity onPress={newPost} style={styles.button}><Text style={{fontFamily:'Nunito-Medium', color:'white'}}>Share</Text></TouchableOpacity>
+        <TouchableOpacity onPress={newPost} style={styles.button}><Text style={{fontFamily:'Nunito-Medium', color:'#FFFFFF'}}>Share</Text></TouchableOpacity>
     </View>
     </View>
   )
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         borderWidth:1,
     },
     lowerFields:{
-        color:'white',
+        color:'#003585',
         marginLeft:20,
         marginRight:10,
         marginTop:12,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         fontFamily:'Nunito-Medium',
     },
     button:{
-        backgroundColor:'#CE7777',
+        backgroundColor:'#003585',
         borderRadius:10,
         padding:15,
         alignItems:'center',

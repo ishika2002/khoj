@@ -105,46 +105,46 @@ export default function ProfilePage({navigation, route}){
             <ScrollView width="100%" nestedScrollEnabled={true}>
                 <View height={60} style={{justifyContent: 'center', marginHorizontal: 10, flexDirection: 'row', alignItems: 'center'}}>
                     <TouchableOpacity style={{position: 'absolute', left: 10}} onPress={() => navigation.navigate("Explore")}>
-                        <Icon name="left" size={20} color="#1c315e"/>
+                        <Icon name="left" size={20} color="#003585"/>
                     </TouchableOpacity>
-                    <Image source={require('../../assets/Khoj_Logo.png')} style={{width: '60%', height:'100%', marginTop: 5}}/>
+                    <Text style={styles.headerText}>PROFILE</Text>
                 </View>
                 <View style={styles.profileheader}>
                     <View style={{alignItems: 'center'}}>
                         <ProfileImage source={profileUrl}/>
                         <Text 
-                            style={{paddingTop: 10, fontFamily: 'Nunito-Bold', fontSize: 20, color: '#1c315e' }}
+                            style={{paddingTop: 10, fontFamily: 'Nunito-Bold', fontSize: 20, color: '#003585' }}
                         >{username}</Text>
-                        <Text style={{padding: 10, color: '#1c315e', fontFamily: 'Nunito-Medium'}}>{name}</Text>
+                        <Text style={{padding: 10, color: '#149DE1', fontFamily: 'Nunito-Medium'}}>{name}</Text>
                     </View>
                     {uid === userUid &&
                         <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("Edit")}>
-                            <Text style={{color: "#E8C4C4", fontFamily: 'Nunito-Medium'}}>Edit Profile</Text>
+                            <Text style={{color: "#FFF4E0", fontFamily: 'Nunito-Medium'}}>Edit Profile</Text>
                         </TouchableOpacity>
                     }
                     <View style={styles.briefDetails}>
                         <View style={{alignItems: 'center'}}>
                             <Text style={styles.number}>{postCount}</Text>
-                            <Text style={{color: "#1c315e", fontFamily: 'Nunito-Medium'}}>Posts</Text>
+                            <Text style={{color: "#003585", fontFamily: 'Nunito-Medium'}}>Posts</Text>
                         </View>
                         <View style={{alignItems: 'center'}}>
                             <Text style={styles.number}>{streakCount}</Text>
-                            <Text style={{color: "#1c315e"}}>Streaks</Text>
+                            <Text style={{color: "#003585"}}>Streaks</Text>
                         </View>
                     </View>
                 </View>
                 <View style={[styles.tab, {marginHorizontal: 10}]}>
                     <View style={styles.tab}>
-                            <TouchableOpacity style={[styles.tabButton, (visible!=0) ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => visible!=0 & setVisible(0)}>
-                                <Text style={{fontFamily: 'Nunito-Medium'}}>Posts</Text>
+                            <TouchableOpacity style={[styles.tabButton, (visible!=0) ? {opacity: 0.5, color: '#003585'} : null]} onPress={() => visible!=0 & setVisible(0)}>
+                                <Text style={{fontFamily: 'Nunito-Medium', color:'#003585'}}>Posts</Text>
                                 <View style={styles.divider}></View>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.tabButton, (visible!=1) ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => visible!=1 & setVisible(1)}>
-                                <Text style={{fontFamily: 'Nunito-Medium'}}>Starred</Text>
+                            <TouchableOpacity style={[styles.tabButton, (visible!=1) ? {opacity: 0.5, color: '#003585'} : null]} onPress={() => visible!=1 & setVisible(1)}>
+                                <Text style={{fontFamily: 'Nunito-Medium', color:'#003585'}}>Starred</Text>
                                 <View style={styles.divider}></View>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.tabButton, (visible!=2) ? {opacity: 0.5, color: '#fff'} : null]} onPress={() => visible!=2 & setVisible(2)}>
-                                <Text style={{fontFamily: 'Nunito-Medium'}}>Memories</Text>
+                            <TouchableOpacity style={[styles.tabButton, (visible!=2) ? {opacity: 0.5, color: '#003585'} : null]} onPress={() => visible!=2 & setVisible(2)}>
+                                <Text style={{fontFamily: 'Nunito-Medium', color:'#003585'}}>Memories</Text>
                                 <View style={styles.divider}></View>
                             </TouchableOpacity>
                     </View>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: Dimensions.get('window').height/2,
-        backgroundColor: '#E8C4C4',
+        backgroundColor: '#FFF4E0',
         paddingVertical: 40
     },
     editButton: {
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     number: {
         fontSize: 20,
         fontFamily: 'NunitoBlack',
-        color: '#1c315e'
+        color: '#003585'
     },
     tab: {
         height: Dimensions.get('window').height/12,
@@ -249,13 +249,13 @@ const styles = StyleSheet.create({
         paddingTop: 8
     },
     tabButton: {
-        color: '#E8C4C4',
+        color: '#003585',
         justifyContent: 'center',
         alignItems: 'center',
         width: '35%',
     },
     divider: {
-        borderBottomColor: '#000',
+        borderBottomColor: '#003585',
         borderWidth: 1,
         width: '90%',
         margin: 10
@@ -265,5 +265,11 @@ const styles = StyleSheet.create({
         width: (Dimensions.get('window').width-20)/3,
         margin: 2,
         marginBottom: 0
-    }
+    },
+    headerText:{
+        color:'#003585',
+        fontSize:20,
+        marginLeft: 5,
+        fontFamily:'NunitoBlack'
+     }
 })
