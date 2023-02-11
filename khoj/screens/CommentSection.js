@@ -38,11 +38,11 @@ const CommentSection = ({navigation, route}) => {
 
     const pushComment = () => {
         const newCommentKey = push(child(ref(database), 'posts/'+postId+'/comments')).key;
-        update(ref(database, 'users/'+uid+'/posts/'+postId+'/comments/'+newCommentKey), {
-            comment: comment,
-            author: uid,
-            commentId: newCommentKey,
-        })
+        // update(ref(database, 'users/'+uid+'/posts/'+postId+'/comments/'+newCommentKey), {
+        //     comment: comment,
+        //     author: uid,
+        //     commentId: newCommentKey,
+        // })
         update(ref(database, 'posts/'+postId+'/comments/'+newCommentKey), {
             comment: comment,
             author: uid,
