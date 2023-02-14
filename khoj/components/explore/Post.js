@@ -42,7 +42,7 @@ const Post = ({post, navigateOption}) => {
             setuid(user.uid);
             setUsername(data.username);
             setProfileUrl(data.profileUrl);
-            setPostLikes(data.posts[post.key].likes)
+            // setPostLikes(data.posts[post.key].likes)
         
             });
         }else{
@@ -65,22 +65,28 @@ const Post = ({post, navigateOption}) => {
             set(ref(database, 'users/' + uid + '/liked/' + post.key), true)
             setLiked(true)
             
-            update(ref(database, 'users/' + post.author + '/posts/' + post.key),{likes: postLikes+1})
+            // update(ref(database, 'users/' + post.author + '/posts/' + post.key),{likes: postLikes+1})
             update(ref(database, 'posts/' + post.key),{likes: postLikes+1})
-            update(ref(database, post.tag + '/' + post.key), {likes: postLikes+1})
+            // update(ref(database, post.tag + '/' + post.key), {likes: postLikes+1})
 
         }else{
             remove(ref(database, 'users/' + uid + '/liked/' + post.key))
             setLiked(false)
 
-            update(ref(database, 'users/' + post.author + '/posts/' + post.key),{likes: postLikes-1})
+            // update(ref(database, 'users/' + post.author + '/posts/' + post.key),{likes: postLikes-1})
             update(ref(database, 'posts/' + post.key),{likes: postLikes-1})
-            update(ref(database, post.tag + '/' + post.key), {likes: postLikes-1})
+            // update(ref(database, post.tag + '/' + post.key), {likes: postLikes-1})
         }
       }
 
       useEffect(() => {
         
+        const postDetails = ref(database, 'posts/');
+        onValue(postDetails, (snapshot) => {
+            const data = snapshot.val()
+            setPostLikes(data[post.key].likes)
+        })
+
         const starredDetails = ref(database, 'users/' + uid + '/starred/' + post.key);
         onValue(starredDetails, (snapshot) => {
             const data=snapshot.val();

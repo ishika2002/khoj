@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import DropdownComponent from './DropdownComponent';
 import { auth, database, storage } from "../../firebase"
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, child, push, update, onValue } from "firebase/database";
+import { getDatabase, ref, child, push, update, onValue, set } from "firebase/database";
 import { ref as REF, uploadBytes, getDownloadURL}  from "firebase/storage";
 const PostUploader = (props) => {
 
@@ -73,31 +73,12 @@ const PostUploader = (props) => {
     const newPost = () => {
         uploadImage().then((value) => {
           const time = new Date();
-          update(ref(database, 'users/' + uid + '/posts/' + newPostKey), {
-            imageUrl: value,
-            tag: tag,
-            likes: 0,
-            heading: heading,
-            description: description,
-            location: location,
-            comments: [],
-            timestamp: time
-        }).then(()=> {
+          set(ref(database, 'users/' + uid + '/posts/' + newPostKey), true).then(()=> {
           update(ref(database, 'users/' + uid),{
               postCount: postCount+1
           })
         }).then(() => {
-          update(ref(database, tag + '/' + newPostKey), {
-              imageUrl: value,
-              tag: tag,
-              likes: 0,
-              heading: heading,
-              description: description,
-              location: location,
-              comments: [],
-              author: uid,
-              timestamp: time
-          })
+          set(ref(database, tag + '/' + newPostKey), true)
         }).then(() => {
           update(ref(database, 'posts/' + newPostKey), {
               imageUrl: value,
@@ -108,7 +89,8 @@ const PostUploader = (props) => {
               location: location,
               comments: [],
               author: uid,
-              timestamp: time
+              timestamp: time,
+              key: newPostKey,
           })
         });
           props.navigateOption.navigate("Profile");

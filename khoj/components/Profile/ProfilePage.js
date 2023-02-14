@@ -49,33 +49,41 @@ export default function ProfilePage({navigation, route}){
       useEffect(() => {
         const userDetails = ref(database, 'users/' + uid);
         const allStarredPostsKeys = []
+        let allPostsKeys = []
         onValue(userDetails, (snapshot) => {
             const data = snapshot.val();
-            const allPosts = []
-            
-            for(const item in data.posts){
-                var obj = data.posts[item];
-                obj["key"] = item;
-                allPosts.unshift(data.posts[item])
-                setPosts([...posts,allPosts])
-            }
+            // console.log(Object.keys(data.posts))
+            data.posts && (allPostsKeys=Object.keys(data.posts))
 
             for(const item in data.starred){
                 allStarredPostsKeys.push(item)
             }
+
+            // console.log(allStarredPostsKeys)
         })
+
         const postDetails = ref(database, 'posts/');
         onValue(postDetails, (snapshot) => {
             const data = snapshot.val()
+            console.log(data)
             const allStarredPosts = []
 
             for(const item in allStarredPostsKeys){
                 var obj = data[allStarredPostsKeys[item]];
-                obj["key"] = allStarredPostsKeys[item];
+                // obj["key"] = allStarredPostsKeys[item];
                 allStarredPosts.unshift(obj)
                 setStarredPosts([...starredPosts,allStarredPosts])
             }
             // setStarredPosts(allStarredPosts)
+            const allPosts = []
+            console.log(allPostsKeys)
+            for(const item in allPostsKeys){
+                var obj = data[allPostsKeys[item]];
+                // console.log(obj)
+                // obj["key"] = allPostsKeys[item];
+                allPosts.unshift(obj)
+                setPosts([...posts,allPosts])
+            }
         })
 
       }, [uid])
